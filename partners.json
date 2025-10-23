@@ -1,0 +1,39 @@
+{
+  "items": [
+    {
+      "name": "Loaded Lions",
+      "handle": "@LoadedLions_CDC",
+      "url": "https://x.com/LoadedLions_CDC"
+    },
+    {
+      "name": "$GM",
+      "handle": "@GMCronos",
+      "url": "https://x.com/GMCronos"
+    },
+    {
+      "name": "PAPA CRO",
+      "handle": "@PAPACRO_",
+      "url": "https://x.com/PAPACRO_"
+    },
+    {
+      "name": "Croginal",
+      "handle": "@Croginal",
+      "url": "https://x.com/Croginal"
+    },
+    {
+      "name": "WolfSwap",
+      "handle": "@wolfswapdotapp",
+      "url": "https://x.com/wolfswapdotapp"
+    },
+    {
+      "name": "Cronos Connect",
+      "handle": "@CronosConnect",
+      "url": "https://x.com/CronosConnect"
+    },
+    {
+      "name": "Prodigy Trade Bot",
+      "handle": "@ProdigyTradeBot",
+      "url": "https://x.com/ProdigyTradeBot"
+    }
+  ]
+}

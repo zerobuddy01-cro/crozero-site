@@ -1,0 +1,49 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "assets"
+public_folder: "/assets"
+
+publish_mode: simple
+
+collections:
+  - name: "site"
+    label: "Site Settings"
+    files:
+      - file: "content/site.json"
+        label: "Global"
+        name: "global"
+        format: "json"
+        fields:
+          - { label: "Title", name: "title", widget: "string" }
+          - { label: "Tagline", name: "tagline", widget: "string" }
+          - { label: "Description", name: "description", widget: "text" }
+          - label: "Links"
+            name: "links"
+            widget: "object"
+            fields:
+              - {label: "Twitter", name: "twitter", widget: "string"}
+              - {label: "Discord", name: "discord", widget: "string"}
+              - {label: "Telegram", name: "telegram", widget: "string"}
+              - {label: "DexScreener", name: "dexscreener", widget: "string"}
+              - {label: "GitBook", name: "gitbook", widget: "string"}
+          - { label: "Hero Buttons", name: "hero_buttons", widget: "list", field: {label: "Label", name: "label", widget: "string"} }
+          - { label: "OG Image", name: "og_image", widget: "image" }
+          - { label: "Logo", name: "logo", widget: "image" }
+
+  - name: "partners"
+    label: "Partners"
+    files:
+      - file: "content/partners.json"
+        label: "Allies & Collabs"
+        name: "allies"
+        format: "json"
+        fields:
+          - label: "Items"
+            name: "items"
+            widget: "list"
+            fields:
+              - {label: "Name", name: "name", widget: "string"}
+              - {label: "Handle", name: "handle", widget: "string"}
+              - {label: "URL", name: "url", widget: "string"}

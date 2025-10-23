@@ -1,0 +1,20 @@
+{
+  "title": "ZERO \u2014 it all begins with ZERO",
+  "tagline": "Cronos \u2022 Community \u2022 Utility \u2022 Meme",
+  "description": "$ZERO is a community-first brand on @cronos_chain with a clean visual identity (perfect hex, oval white eyes, floating gloves) and utility via wearables, NFTs, games and collabs.",
+  "links": {
+    "twitter": "https://x.com/zerobuddy01",
+    "discord": "https://discord.gg/Ch9wXDYu5a",
+    "telegram": "https://t.me/zerocroonoscommunity/1",
+    "dexscreener": "https://dexscreener.com/cronos/0x67ab1ba7be0af7305d67d7deec2344274344655e",
+    "gitbook": "https://zero-corp.gitbook.io/zerooncronos-official-docs/"
+  },
+  "hero_buttons": [
+    "Mint NFT",
+    "How to Buy",
+    "Tokenomics",
+    "Buy on DEXScreener"
+  ],
+  "og_image": "/assets/og-image.png",
+  "logo": "/assets/logo-zero.png"
+}
