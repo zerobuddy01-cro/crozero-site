@@ -11,7 +11,9 @@
 
   <!-- Base styles -->
   <style>
-    :root { --cronos:#2EE6FF; }
+    :root {
+      --cronos:#2EE6FF; --tiltX:0deg; --tiltY:0deg; --peekX:0px; --peekY:0px;
+    }
     *{ box-sizing:border-box }
     body{
       margin:0; color:#E8ECF0;
@@ -37,6 +39,7 @@
       font-size: clamp(28px, 4.2vw, 48px);
       background: linear-gradient(180deg,#F6FBFF 20%, #A9B3BC 70%, #7F8A94 100%);
       -webkit-background-clip: text; background-clip: text; color: transparent;
+      display:inline-block;
     }
     .sub{opacity:.85; max-width:800px; margin:12px auto 0; font-size: clamp(14px, 1.7vw, 18px);}
     .btns{ display:flex; gap:12px; justify-content:center; margin-top:22px; flex-wrap:wrap;}
@@ -48,43 +51,71 @@
     footer{ text-align:center; padding:30px 16px; opacity:.7; font-size:13px; }
   </style>
 
-  <!-- Mascot styles (refined eyes, no portal glow) -->
+  <!-- Mascot styles -->
   <style>
     .stage { position:relative; width:min(520px, 90vw); height:min(420px, 65vh); margin:0 auto 6px; }
     .wander { position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); transition: transform 1500ms cubic-bezier(.2,.7,.2,1); }
     .zero-wrap { display:grid; place-items:center; }
     .zero-anim { width:min(340px, 56vw); height:auto; transform-origin:50% 50%; filter: drop-shadow(0 6px 18px rgba(12,40,58,.35)); }
 
-    /* Float/bob loop */
+    /* Float/bob + subtle breathing (premium feel) */
     @keyframes floatX { 0%{ transform: translateX(-10px); } 50%{ transform: translateX(10px); } 100%{ transform: translateX(-10px); } }
     @keyframes bobY   { 0%{ transform: translateY(0);} 50%{ transform: translateY(7px);} 100%{ transform: translateY(0);} }
-    .zero-core { animation: floatX 7.8s ease-in-out infinite, bobY 5.4s ease-in-out infinite; }
+    @keyframes breath { 0%{ transform: scale(1) } 50%{ transform: scale(1.012) } 100%{ transform: scale(1) } }
+    .zero-core {
+      animation: floatX 7.8s ease-in-out infinite, bobY 5.4s ease-in-out infinite, breath 6.5s ease-in-out infinite;
+      transform-origin:50% 50%;
+    }
     .hands    { animation: floatX 7.8s ease-in-out infinite reverse, bobY 6s ease-in-out infinite; opacity:.95; }
 
-    /* Eyelid blink (overlay lids, not scaling eyes) */
-    @keyframes blinkLid { 0%, 90%, 100%{ transform: scaleY(0);} 94%{ transform: scaleY(1);} 98%{ transform: scaleY(0);} }
-    .eyelids .lid { transform-origin: 50% 50%; animation: blinkLid 6.5s ease-in-out infinite; }
-    .eyelids .lid.delay { animation-delay: .25s; } /* tiny offset for charm */
+    /* Eyes: natural blink with eyelids + subtle 3D shine */
+    @keyframes blinkLid { 0%, 92%, 100%{ transform: scaleY(0);} 96%{ transform: scaleY(1);} 98%{ transform: scaleY(0);} }
+    .eyelids .lid { transform-origin: 50% 50%; animation: blinkLid 6400ms ease-in-out infinite; }
+    .eyelids .lid.delay { animation-delay: .22s; }
+    .eyes .highlight { opacity:.9 }
+
+    /* Curious lean (CSS vars updated from JS) */
+    .zero-curious {
+      transform: translate(var(--peekX), var(--peekY)) rotateX(var(--tiltY)) rotateY(var(--tiltX));
+      transition: transform 240ms cubic-bezier(.2,.7,.2,1);
+      transform-style: preserve-3d;
+    }
 
     /* Click poke */
-    .zero-anim.poke { animation: poke 260ms cubic-bezier(.2,.8,.2,1); }
-    @keyframes poke{ 0%{transform:scale(1)} 50%{transform:scale(1.06)} 100%{transform:scale(1)} }
+    .zero-anim.poke { animation: poke 240ms cubic-bezier(.2,.8,.2,1); }
+    @keyframes poke{ 0%{transform:scale(1)} 50%{transform:scale(1.05)} 100%{transform:scale(1)} }
 
-    /* Crack effect (no random glow) */
+    /* CRACK FX (improved fracture + shards + flash + micro-shake) */
     .fx-layer{ position:fixed; inset:0; pointer-events:none; z-index:60; }
     .crack{
-      position:fixed; width:220px; height:220px; margin:-110px 0 0 -110px;
-      background: radial-gradient(closest-side, rgba(255,255,255,.16), rgba(255,255,255,0) 60%);
-      filter: drop-shadow(0 2px 10px rgba(12,40,58,.4));
-      opacity:0; transform: scale(.86);
-      animation: crackIn .14s ease-out forwards, heal .9s ease-in forwards .42s;
+      position:fixed; width:230px; height:230px; margin:-115px 0 0 -115px;
+      opacity:0; transform: scale(.9); mix-blend-mode:screen;
+      animation: crackIn .16s ease-out forwards, heal .9s ease-in forwards .5s;
     }
     @keyframes crackIn{ to{ opacity:1; transform:scale(1); } }
-    @keyframes heal{ to{ opacity:0; transform:scale(1.12); } }
-    .crack svg{ width:100%; height:100%; }
-    .crack path{ stroke:#EAF3F8; stroke-width:1.6; stroke-linecap:round; opacity:.95 }
+    @keyframes heal{ to{ opacity:0; transform:scale(1.08); } }
+    .crack svg{ width:100%; height:100%; display:block; }
+    .crack .lines { stroke:#E8EEF5; stroke-width:1.6; stroke-linecap:round; opacity:.95; }
+    .crack .shard { fill:#EAF3F8; opacity:.08 }
+    .screen-flash{
+      position:fixed; inset:0; background:radial-gradient(closest-side, rgba(255,255,255,.15), rgba(255,255,255,0) 60%);
+      opacity:0; animation: flash .18s ease-out forwards;
+    }
+    @keyframes flash{ to{ opacity:1 } }
+    .shake { animation: shake .15s ease-in-out 1; }
+    @keyframes shake {
+      0%{ transform:translate(0,0) } 25%{ transform:translate(1px,-1px) } 50%{ transform:translate(-1px,1px) }
+      75%{ transform:translate(1px,1px) } 100%{ transform:translate(0,0) }
+    }
 
-    /* Intro overlay (simple, quick) */
+    /* Hand wave */
+    @keyframes wave {
+      0%{transform: rotate(0deg)} 20%{transform: rotate(-10deg)} 40%{transform: rotate(8deg)}
+      60%{transform: rotate(-6deg)} 80%{transform: rotate(4deg)} 100%{transform: rotate(0deg)}
+    }
+    .handR.is-waving { animation: wave 650ms ease-in-out 1 }
+
+    /* Intro overlay (quick) */
     .intro{
       position:fixed; inset:0; z-index:70; display:grid; place-items:center;
       background: radial-gradient(40vw 40vw at 50% 38%, rgba(46,230,255,.07), transparent 60%),
@@ -102,7 +133,7 @@
     /* Reduced motion */
     @media (prefers-reduced-motion: reduce){
       .zero-core, .hands, .eyelids .lid{ animation: none !important; }
-      .wander{ transition: none !important; }
+      .wander, .zero-curious{ transition: none !important; }
       .intro{ transition: opacity .2s ease, visibility .2s ease; }
     }
   </style>
@@ -135,11 +166,11 @@
   <div class="fx-layer" aria-hidden="true"></div>
 
   <section class="hero" aria-label="ZERO hero">
-    <div class="stage" aria-hidden="true">
+    <div class="stage" aria-hidden="true" id="stage">
       <div class="wander">
         <div class="zero-wrap">
           <!-- ZERO mascot -->
-          <svg class="zero-anim" width="320" height="320" viewBox="0 0 280 280" role="img" aria-label="ZERO mascot">
+          <svg class="zero-anim zero-curious" width="320" height="320" viewBox="0 0 280 280" role="img" aria-label="ZERO mascot" id="zeroSvg">
             <defs>
               <!-- Face + rim -->
               <linearGradient id="metalFace" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -153,7 +184,7 @@
                 <stop offset="100%" stop-color="#6F8393"/>
               </linearGradient>
 
-              <!-- Eye shine (gives subtle 3D) -->
+              <!-- Eye shine (subtle 3D) -->
               <radialGradient id="eyeShine" cx="35%" cy="30%" r="65%">
                 <stop offset="0%" stop-color="#FFFFFF"/>
                 <stop offset="70%" stop-color="#F6F7FA"/>
@@ -167,10 +198,10 @@
             </defs>
 
             <g class="zero-core" filter="url(#softShadow)">
-              <!-- Hands -->
+              <!-- Hands (grouped for wave) -->
               <g class="hands">
-                <circle cx="58"  cy="154" r="9" fill="#8FEAFF" opacity="0.95"/>
-                <circle cx="222" cy="154" r="9" fill="#8FEAFF" opacity="0.95"/>
+                <g class="handL" transform="translate(58,154)"><circle r="9" fill="#8FEAFF" opacity="0.95"/></g>
+                <g class="handR" transform="translate(222,154)"><circle r="9" fill="#8FEAFF" opacity="0.95"/></g>
               </g>
 
               <!-- Hex body -->
@@ -181,16 +212,15 @@
                       fill="url(#metalFace)"/>
               </g>
 
-              <!-- Eyes (bigger + spaced + 3D shine + specular highlights) -->
+              <!-- Eyes (bigger + spaced + 3D shine + highlights) -->
               <g class="eyes">
                 <ellipse class="eyeL" cx="106" cy="128" rx="18" ry="26" fill="url(#eyeShine)"/>
                 <ellipse class="eyeR" cx="174" cy="128" rx="18" ry="26" fill="url(#eyeShine)"/>
-                <!-- tiny highlights -->
-                <circle cx="98"  cy="118" r="3.5" fill="#FFFFFF" opacity=".9"/>
-                <circle cx="166" cy="118" r="3.5" fill="#FFFFFF" opacity=".9"/>
+                <circle class="highlight" cx="98"  cy="118" r="3.5" fill="#FFFFFF"/>
+                <circle class="highlight" cx="166" cy="118" r="3.5" fill="#FFFFFF"/>
               </g>
 
-              <!-- Eyelids (overlay that animates) -->
+              <!-- Eyelids (overlay) -->
               <g class="eyelids">
                 <ellipse class="lid" cx="106" cy="128" rx="19" ry="26" fill="#0e1620" style="transform:scaleY(0)"/>
                 <ellipse class="lid delay" cx="174" cy="128" rx="19" ry="26" fill="#0e1620" style="transform:scaleY(0)"/>
@@ -201,7 +231,7 @@
       </div>
     </div>
 
-    <h1>Built different. Backed by Lions. <span style="color:var(--cronos)">Powered by Cronos.</span></h1>
+    <h1 id="headline">From code to companion — <span style="color:var(--cronos)">this is Zero.</span></h1>
     <p class="sub">Community brand + real utility across NFTs, wearables, partner collabs and Cronos native culture.</p>
     <div class="btns">
       <a class="btn primary" href="https://dexscreener.com/cronos/0x67ab1ba7be0af7305d67d7deec2344274344655e" target="_blank" rel="noopener">View Chart</a>
@@ -216,11 +246,14 @@
   <script>
   (() => {
     const fx = document.querySelector('.fx-layer');
+    const stage = document.getElementById('stage');
     const wander = document.querySelector('.wander');
-    const zero = document.querySelector('.zero-anim');
-    const lids = document.querySelectorAll('.eyelids .lid');
+    const zero = document.getElementById('zeroSvg');
     const eyes = document.querySelectorAll('.eyeL,.eyeR');
+    const lids = document.querySelectorAll('.eyelids .lid');
+    const handR = document.querySelector('.handR');
     const intro = document.querySelector('.intro');
+    const headline = document.getElementById('headline');
 
     /* Intro fade */
     const finishIntro = () => intro.classList.add('is-hidden');
@@ -230,23 +263,48 @@
       window.addEventListener('load', () => setTimeout(finishIntro, 850));
     }
 
-    /* Eye parallax (subtle) */
+    /* Eye parallax + curious lean */
     const moveEyes = (x, y) => {
       const rect = zero.getBoundingClientRect();
       const cx = rect.left + rect.width/2, cy = rect.top + rect.height/2;
       const dx = (x - cx) / rect.width, dy = (y - cy) / rect.height;
       eyes.forEach(e => e.style.transform = `translate(${dx*2.2}px, ${dy*2.8}px)`);
+      zero.style.setProperty('--tiltX', (dx*6).toFixed(2) + 'deg');
+      zero.style.setProperty('--tiltY', (-dy*4).toFixed(2) + 'deg');
+      zero.style.setProperty('--peekX', (dx*6).toFixed(1) + 'px');
+      zero.style.setProperty('--peekY', (dy*4).toFixed(1) + 'px');
     };
     window.addEventListener('mousemove', e => moveEyes(e.clientX, e.clientY));
-    window.addEventListener('mouseleave', () => eyes.forEach(e => e.style.transform='translate(0,0)'));
+    window.addEventListener('mouseleave', () => {
+      eyes.forEach(e => e.style.transform='translate(0,0)');
+      zero.style.setProperty('--tiltX','0deg');
+      zero.style.setProperty('--tiltY','0deg');
+      zero.style.setProperty('--peekX','0px');
+      zero.style.setProperty('--peekY','0px');
+    });
 
-    /* Natural blink: random cadence 3–7s; eyelid overlay scales in/out */
+    /* Headline hover glance */
+    const glanceAt = (el) => {
+      const r = el.getBoundingClientRect();
+      const x = r.left + r.width/2;
+      const y = r.top + r.height/2;
+      moveEyes(x, y);
+      setTimeout(() => { // relax back a bit
+        eyes.forEach(e => e.style.transform='translate(0,0)');
+        zero.style.setProperty('--tiltX','0deg');
+        zero.style.setProperty('--tiltY','0deg');
+        zero.style.setProperty('--peekX','0px');
+        zero.style.setProperty('--peekY','0px');
+      }, 700);
+    };
+    headline.addEventListener('mouseenter', () => glanceAt(headline));
+
+    /* Natural random blinks: 3–7s cadence */
     const blinkOnce = () => {
       lids.forEach((lid,i)=>{
-        lid.style.animation = 'none'; // restart
-        lid.offsetHeight;             // reflow
+        lid.style.animation = 'none'; lid.offsetHeight; // restart
         lid.style.animation = `blinkLid 6200ms ease-in-out 1`;
-        if (i===1) lid.style.animationDelay = '200ms'; // charming offset
+        if (i===1) lid.style.animationDelay = '200ms';
       });
     };
     const scheduleBlink = () => {
@@ -255,46 +313,85 @@
     };
     scheduleBlink();
 
-    /* Click-to-crack (kept; feels playful) */
-    const crackSVG = `
-      <svg viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg">
-        <path d="M110 20 L110 70 M110 70 L80 90 M110 70 L140 95 M80 90 L65 120 M140 95 L165 120
-                 M65 120 L80 155 M165 120 L150 155 M80 155 L110 180 M150 155 L110 180" fill="none"/>
+    /* Improved CRACK FX on click */
+    const fractureSVG = `
+      <svg viewBox="0 0 230 230" xmlns="http://www.w3.org/2000/svg" fill="none">
+        <!-- shards (subtle) -->
+        <polygon class="shard" points="114,114 128,96 140,112"/>
+        <polygon class="shard" points="112,116 98,98 86,112"/>
+        <polygon class="shard" points="116,118 132,128 120,140"/>
+        <!-- main fracture lines -->
+        <g class="lines">
+          <path d="M115 20 L115 72"/>
+          <path d="M115 72 L88 92"/>
+          <path d="M115 72 L142 94"/>
+          <path d="M88 92 L72 122"/>
+          <path d="M142 94 L158 122"/>
+          <path d="M72 122 L88 156"/>
+          <path d="M158 122 L144 156"/>
+          <path d="M88 156 L115 184"/>
+          <path d="M144 156 L115 184"/>
+          <!-- tiny fractures -->
+          <path d="M115 72 L108 80"/>
+          <path d="M115 72 L122 80"/>
+          <path d="M88 92 L80 96"/>
+          <path d="M142 94 L150 98"/>
+        </g>
       </svg>`;
-    const poke = (x, y) => {
-      zero.classList.add('poke');
-      setTimeout(()=> zero.classList.remove('poke'), 260);
 
+    const poke = (x, y) => {
+      // micro-shake the stage wrapper for haptic feel
+      stage.classList.add('shake');
+      setTimeout(() => stage.classList.remove('shake'), 160);
+
+      // quick lunge
+      zero.classList.add('poke');
+      setTimeout(()=> zero.classList.remove('poke'), 240);
+
+      // soft flash
+      const flash = document.createElement('div');
+      flash.className = 'screen-flash';
+      fx.appendChild(flash);
+      setTimeout(()=> flash.remove(), 120);
+
+      // fracture at click
       const c = document.createElement('div');
       c.className = 'crack';
       c.style.left = x + 'px';
       c.style.top  = y + 'px';
-      c.innerHTML  = crackSVG;
+      c.innerHTML  = fractureSVG;
       fx.appendChild(c);
       setTimeout(()=> c.remove(), 1200);
     };
     zero.addEventListener('click', e => poke(e.clientX, e.clientY));
 
-    /* Wander behavior: ZERO glides to random spots inside the stage */
-    const stage = document.querySelector('.stage');
-    const bounds = () => stage.getBoundingClientRect();
+    /* Proximity wave (right hand) */
+    const waveIfNear = (pt) => {
+      const r = handR.getBoundingClientRect();
+      const near =
+        pt.clientX > r.left - 30 && pt.clientX < r.right + 30 &&
+        pt.clientY > r.top  - 30 && pt.clientY < r.bottom + 30;
+      if (near && !handR.classList.contains('is-waving')) {
+        handR.classList.add('is-waving');
+        setTimeout(() => handR.classList.remove('is-waving'), 700);
+      }
+    };
+    window.addEventListener('mousemove', waveIfNear);
+    window.addEventListener('touchmove', (ev) => { if (ev.touches && ev.touches[0]) waveIfNear(ev.touches[0]); }, {passive:true});
 
+    /* Wander behavior */
+    const bounds = () => stage.getBoundingClientRect();
     const wanderLoop = () => {
       const r = bounds();
-      // travel range (keep within stage, with some padding)
       const padX = r.width * 0.18, padY = r.height * 0.22;
       const tx = (Math.random()*(r.width - padX*2) + padX) - r.width/2;
       const ty = (Math.random()*(r.height - padY*2) + padY) - r.height/2;
-
-      // apply transform (center-based)
       wander.style.transform = `translate(calc(-50% + ${tx}px), calc(-50% + ${ty}px))`;
-
-      // vary next move timing 1.8–3.6s
       const next = 1800 + Math.random()*1800;
       setTimeout(wanderLoop, next);
     };
     if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches){
-      setTimeout(wanderLoop, 1200); // start after intro
+      setTimeout(wanderLoop, 1000);
     }
   })();
   </script>
