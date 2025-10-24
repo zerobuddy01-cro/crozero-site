@@ -1,150 +1,100 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>ZERO — it all begins with ZERO</title>
-  <meta name="description" content="ZERO is a Cronos-native community brand with clean visuals and real utility across NFTs, wearables, and partner collabs." />
-  <link rel="icon" type="image/png" href="./assets/zero-favicon.png" />
-  <link rel="preload" as="image" href="./assets/zero-bg.jpg" />
-  <link rel="preload" as="image" href="./assets/zero-mark.png" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>ZERO — it all begins with ZERO</title>
+<meta name="description" content="ZERO is a Cronos-native community brand with clean visuals and real utility across NFTs, wearables, and partner collabs." />
+<link rel="icon" type="image/png" href="./assets/zero-favicon.png" />
+<link rel="preload" as="image" href="./assets/zero-bg.jpg" />
 
-  <!-- Base styles -->
-  <style>
-    :root {
-      --cronos:#2EE6FF; --tiltX:0deg; --tiltY:0deg; --peekX:0px; --peekY:0px;
-    }
-    *{ box-sizing:border-box }
-    body{
-      margin:0; color:#E8ECF0;
-      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      background:#060B10 url('./assets/zero-bg.jpg') center / cover fixed no-repeat;
-    }
-    header{
-      position:sticky; top:0; z-index:50;
-      display:flex; align-items:center; justify-content:space-between; gap:18px;
-      padding:14px 18px; background: rgba(6,11,16,.6);
-      backdrop-filter: blur(8px); border-bottom:1px solid rgba(255,255,255,.06);
-    }
-    .brand{display:flex; align-items:center; gap:10px; font-weight:800; letter-spacing:.3px;}
-    .brand img{ width:28px; height:28px }
-    nav a{ color:#cfe7f3; text-decoration:none; margin:0 10px; font-size:14px; opacity:.85 }
-    .cta{
-      padding:8px 12px; border:1px solid rgba(255,255,255,.14); border-radius:10px; text-decoration:none; color:#EAF3F8;
-      background: rgba(46,230,255,.12); border-color: rgba(46,230,255,.35);
-    }
-    .hero{ min-height:68vh; display:grid; place-items:center; text-align:center; padding:64px 16px 32px; }
-    h1{
-      margin:18px 0 0; font-weight:800; letter-spacing:.4px; line-height:1.08;
-      font-size: clamp(28px, 4.2vw, 48px);
-      background: linear-gradient(180deg,#F6FBFF 20%, #A9B3BC 70%, #7F8A94 100%);
-      -webkit-background-clip: text; background-clip: text; color: transparent;
-      display:inline-block;
-    }
-    .sub{opacity:.85; max-width:800px; margin:12px auto 0; font-size: clamp(14px, 1.7vw, 18px);}
-    .btns{ display:flex; gap:12px; justify-content:center; margin-top:22px; flex-wrap:wrap;}
-    .btn{
-      padding:12px 18px; border:1px solid rgba(255,255,255,.12); border-radius:12px;
-      text-decoration:none; color:#EAF3F8; backdrop-filter: blur(6px);
-    }
-    .btn.primary{ background: rgba(46,230,255,.12); border-color: rgba(46,230,255,.35);}
-    footer{ text-align:center; padding:30px 16px; opacity:.7; font-size:13px; }
-  </style>
+<style>
+  :root{ --cronos:#2EE6FF }
+  *{box-sizing:border-box}
+  body{
+    margin:0; color:#E8ECF0;
+    font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    background:#060B10 url('./assets/zero-bg.jpg') center/cover fixed no-repeat;
+    overflow-x:hidden;
+  }
+  header{
+    position:sticky; top:0; z-index:20;
+    display:flex; align-items:center; justify-content:space-between; gap:18px;
+    padding:14px 18px; background: rgba(6,11,16,.6);
+    border-bottom:1px solid rgba(255,255,255,.06); backdrop-filter: blur(8px);
+  }
+  .brand{display:flex; align-items:center; gap:10px; font-weight:800; letter-spacing:.3px;}
+  .brand img{width:28px; height:28px}
+  nav a{ color:#cfe7f3; text-decoration:none; margin:0 10px; font-size:14px; opacity:.85 }
+  .cta{
+    padding:8px 12px; border:1px solid rgba(255,255,255,.14); border-radius:10px;
+    text-decoration:none; color:#EAF3F8; background: rgba(46,230,255,.12); border-color: rgba(46,230,255,.35);
+  }
+  .hero{ min-height:68vh; display:grid; place-items:center; text-align:center; padding:64px 16px 48px; position:relative; }
+  h1{
+    margin:18px 0 0; font-weight:800; letter-spacing:.4px; line-height:1.08;
+    font-size: clamp(28px, 4.2vw, 48px);
+    background: linear-gradient(180deg,#F6FBFF 20%, #A9B3BC 70%, #7F8A94 100%);
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+    display:inline-block; position:relative;
+  }
+  .sub{opacity:.85; max-width:800px; margin:12px auto 0; font-size: clamp(14px, 1.7vw, 18px);}
+  .btns{ display:flex; gap:12px; justify-content:center; margin-top:22px; flex-wrap:wrap;}
+  .btn{
+    padding:12px 18px; border:1px solid rgba(255,255,255,.12); border-radius:12px;
+    text-decoration:none; color:#EAF3F8; backdrop-filter: blur(6px);
+  }
+  .btn.primary{ background: rgba(46,230,255,.12); border-color: rgba(46,230,255,.35);}
+  footer{ text-align:center; padding:30px 16px; opacity:.7; font-size:13px; }
 
-  <!-- Mascot styles -->
-  <style>
-    .stage { position:relative; width:min(520px, 90vw); height:min(420px, 65vh); margin:0 auto 6px; }
-    .wander { position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); transition: transform 1500ms cubic-bezier(.2,.7,.2,1); }
-    .zero-wrap { display:grid; place-items:center; }
-    .zero-anim { width:min(340px, 56vw); height:auto; transform-origin:50% 50%; filter: drop-shadow(0 6px 18px rgba(12,40,58,.35)); }
+  /* ===== Walker positioning ===== */
+  .zero-walker{
+    position:fixed; /* let him cross the screen + climb headline precisely */
+    left:-9999px; top:0; width:0; height:0; z-index:15; pointer-events:auto;
+  }
+  .zero-wrap{ transform: translate3d(0,0,0); will-change: transform; }
+  .face-right { transform: scaleX(1); }
+  .face-left  { transform: scaleX(-1); }
 
-    /* Float/bob + subtle breathing (premium feel) */
-    @keyframes floatX { 0%{ transform: translateX(-10px); } 50%{ transform: translateX(10px); } 100%{ transform: translateX(-10px); } }
-    @keyframes bobY   { 0%{ transform: translateY(0);} 50%{ transform: translateY(7px);} 100%{ transform: translateY(0);} }
-    @keyframes breath { 0%{ transform: scale(1) } 50%{ transform: scale(1.012) } 100%{ transform: scale(1) } }
-    .zero-core {
-      animation: floatX 7.8s ease-in-out infinite, bobY 5.4s ease-in-out infinite, breath 6.5s ease-in-out infinite;
-      transform-origin:50% 50%;
-    }
-    .hands    { animation: floatX 7.8s ease-in-out infinite reverse, bobY 6s ease-in-out infinite; opacity:.95; }
+  /* ===== Mascot visuals ===== */
+  .zero-anim{ width:220px; height:auto; filter: drop-shadow(0 6px 18px rgba(12,40,58,.35)); }
+  @media (min-width: 900px){ .zero-anim{ width:260px } }
 
-    /* Eyes: natural blink with eyelids + subtle 3D shine */
-    @keyframes blinkLid { 0%, 92%, 100%{ transform: scaleY(0);} 96%{ transform: scaleY(1);} 98%{ transform: scaleY(0);} }
-    .eyelids .lid { transform-origin: 50% 50%; animation: blinkLid 6400ms ease-in-out infinite; }
-    .eyelids .lid.delay { animation-delay: .22s; }
-    .eyes .highlight { opacity:.9 }
+  /* Cute idle life */
+  @keyframes floatX { 0%,100%{ transform:translateX(-6px) } 50%{ transform:translateX(6px) } }
+  @keyframes bobY   { 0%,100%{ transform:translateY(0) } 50%{ transform:translateY(6px) } }
+  @keyframes breathe{ 0%,100%{ transform:scale(1) } 50%{ transform:scale(1.012) } }
+  .zero-core{ animation: floatX 8s ease-in-out infinite, bobY 5.6s ease-in-out infinite, breathe 6.8s ease-in-out infinite; transform-origin:50% 50%; }
+  .hands{ opacity:.95 }
 
-    /* Curious lean (CSS vars updated from JS) */
-    .zero-curious {
-      transform: translate(var(--peekX), var(--peekY)) rotateX(var(--tiltY)) rotateY(var(--tiltX));
-      transition: transform 240ms cubic-bezier(.2,.7,.2,1);
-      transform-style: preserve-3d;
-    }
+  /* Walk cycle (legs + arms swing) */
+  @keyframes legL { 0%,100%{ transform:rotate(14deg) } 50%{ transform:rotate(-14deg) } }
+  @keyframes legR { 0%,100%{ transform:rotate(-14deg)} 50%{ transform:rotate(14deg) } }
+  @keyframes armL { 0%,100%{ transform:rotate(-18deg)} 50%{ transform:rotate(12deg) } }
+  @keyframes armR { 0%,100%{ transform:rotate(12deg) } 50%{ transform:rotate(-18deg)} }
+  .walking .legL{ transform-origin: 140px 200px; animation: legL .6s ease-in-out infinite }
+  .walking .legR{ transform-origin: 140px 200px; animation: legR .6s ease-in-out infinite }
+  .walking .armL{ transform-origin: 100px 150px; animation: armL .6s ease-in-out infinite }
+  .walking .armR{ transform-origin: 180px 150px; animation: armR .6s ease-in-out infinite }
 
-    /* Click poke */
-    .zero-anim.poke { animation: poke 240ms cubic-bezier(.2,.8,.2,1); }
-    @keyframes poke{ 0%{transform:scale(1)} 50%{transform:scale(1.05)} 100%{transform:scale(1)} }
+  /* Climb cycle (hands up, legs step) */
+  @keyframes climbLeg { 0%,100%{ transform:translateY(0) } 50%{ transform:translateY(-6px) } }
+  @keyframes climbArm { 0%,100%{ transform:rotate(-8deg) } 50%{ transform:rotate(12deg) } }
+  .climbing .legL, .climbing .legR{ animation: climbLeg .5s ease-in-out infinite }
+  .climbing .armL, .climbing .armR{ animation: climbArm .5s ease-in-out infinite }
 
-    /* CRACK FX (improved fracture + shards + flash + micro-shake) */
-    .fx-layer{ position:fixed; inset:0; pointer-events:none; z-index:60; }
-    .crack{
-      position:fixed; width:230px; height:230px; margin:-115px 0 0 -115px;
-      opacity:0; transform: scale(.9); mix-blend-mode:screen;
-      animation: crackIn .16s ease-out forwards, heal .9s ease-in forwards .5s;
-    }
-    @keyframes crackIn{ to{ opacity:1; transform:scale(1); } }
-    @keyframes heal{ to{ opacity:0; transform:scale(1.08); } }
-    .crack svg{ width:100%; height:100%; display:block; }
-    .crack .lines { stroke:#E8EEF5; stroke-width:1.6; stroke-linecap:round; opacity:.95; }
-    .crack .shard { fill:#EAF3F8; opacity:.08 }
-    .screen-flash{
-      position:fixed; inset:0; background:radial-gradient(closest-side, rgba(255,255,255,.15), rgba(255,255,255,0) 60%);
-      opacity:0; animation: flash .18s ease-out forwards;
-    }
-    @keyframes flash{ to{ opacity:1 } }
-    .shake { animation: shake .15s ease-in-out 1; }
-    @keyframes shake {
-      0%{ transform:translate(0,0) } 25%{ transform:translate(1px,-1px) } 50%{ transform:translate(-1px,1px) }
-      75%{ transform:translate(1px,1px) } 100%{ transform:translate(0,0) }
-    }
+  /* Blink (eyelid overlays) */
+  @keyframes blinkLid { 0%,92%,100%{ transform: scaleY(0) } 96%{ transform: scaleY(1) } 98%{ transform: scaleY(0) } }
+  .eyelids .lid{ transform-origin:50% 50%; animation: blinkLid 6.6s ease-in-out infinite }
+  .eyelids .lid.delay{ animation-delay: .22s }
 
-    /* Hand wave */
-    @keyframes wave {
-      0%{transform: rotate(0deg)} 20%{transform: rotate(-10deg)} 40%{transform: rotate(8deg)}
-      60%{transform: rotate(-6deg)} 80%{transform: rotate(4deg)} 100%{transform: rotate(0deg)}
-    }
-    .handR.is-waving { animation: wave 650ms ease-in-out 1 }
-
-    /* Intro overlay (quick) */
-    .intro{
-      position:fixed; inset:0; z-index:70; display:grid; place-items:center;
-      background: radial-gradient(40vw 40vw at 50% 38%, rgba(46,230,255,.07), transparent 60%),
-                  radial-gradient(120vw 90vh at 50% 120%, rgba(0,0,0,.55), rgba(0,0,0,.85));
-      transition: opacity .6s ease, visibility .6s ease; opacity:1; visibility:visible;
-    }
-    .intro__mark{
-      width:min(120px, 26vw); height:auto; filter: drop-shadow(0 8px 24px rgba(46,230,255,.22));
-      animation: markIn 900ms cubic-bezier(.2,.8,.2,1) forwards;
-      opacity:0; transform: translateY(8px) scale(.96);
-    }
-    @keyframes markIn{ 40%{opacity:1; transform:translateY(0) scale(1.02)} 100%{opacity:1; transform:translateY(0) scale(1)} }
-    .intro.is-hidden{ opacity:0; visibility:hidden; }
-
-    /* Reduced motion */
-    @media (prefers-reduced-motion: reduce){
-      .zero-core, .hands, .eyelids .lid{ animation: none !important; }
-      .wander, .zero-curious{ transition: none !important; }
-      .intro{ transition: opacity .2s ease, visibility .2s ease; }
-    }
-  </style>
+  /* Reduced motion */
+  @media (prefers-reduced-motion: reduce){
+    .zero-core, .walking .legL, .walking .legR, .walking .armL, .walking .armR, .climbing .legL, .climbing .legR, .climbing .armL, .climbing .armR, .eyelids .lid { animation:none !important }
+  }
+</style>
 </head>
-
 <body>
-  <!-- Intro -->
-  <div class="intro" aria-hidden="true">
-    <img class="intro__mark" src="./assets/zero-mark.png" alt="">
-  </div>
-
   <header>
     <div class="brand">
       <img src="./assets/zero-favicon.png" alt="ZERO icon">
@@ -162,76 +112,8 @@
     <a class="cta" href="https://dexscreener.com/cronos/0x67ab1ba7be0af7305d67d7deec2344274344655e" target="_blank" rel="noopener">Buy ZERO</a>
   </header>
 
-  <!-- crack effects only -->
-  <div class="fx-layer" aria-hidden="true"></div>
-
   <section class="hero" aria-label="ZERO hero">
-    <div class="stage" aria-hidden="true" id="stage">
-      <div class="wander">
-        <div class="zero-wrap">
-          <!-- ZERO mascot -->
-          <svg class="zero-anim zero-curious" width="320" height="320" viewBox="0 0 280 280" role="img" aria-label="ZERO mascot" id="zeroSvg">
-            <defs>
-              <!-- Face + rim -->
-              <linearGradient id="metalFace" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%"  stop-color="#1b2a36"/>
-                <stop offset="45%" stop-color="#0e1620"/>
-                <stop offset="100%" stop-color="#263a49"/>
-              </linearGradient>
-              <linearGradient id="rim" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%"  stop-color="#9FB3C3"/>
-                <stop offset="55%" stop-color="#D7E3EC"/>
-                <stop offset="100%" stop-color="#6F8393"/>
-              </linearGradient>
-
-              <!-- Eye shine (subtle 3D) -->
-              <radialGradient id="eyeShine" cx="35%" cy="30%" r="65%">
-                <stop offset="0%" stop-color="#FFFFFF"/>
-                <stop offset="70%" stop-color="#F6F7FA"/>
-                <stop offset="100%" stop-color="#EDEFF3"/>
-              </radialGradient>
-
-              <!-- Soft drop shadow -->
-              <filter id="softShadow" x="-50%" y="-50%" width="200%" height="200%">
-                <feDropShadow dx="0" dy="10" stdDeviation="10" flood-color="#0C283A" flood-opacity="0.35"/>
-              </filter>
-            </defs>
-
-            <g class="zero-core" filter="url(#softShadow)">
-              <!-- Hands (grouped for wave) -->
-              <g class="hands">
-                <g class="handL" transform="translate(58,154)"><circle r="9" fill="#8FEAFF" opacity="0.95"/></g>
-                <g class="handR" transform="translate(222,154)"><circle r="9" fill="#8FEAFF" opacity="0.95"/></g>
-              </g>
-
-              <!-- Hex body -->
-              <g class="hex">
-                <path d="M140 20 L228 70 L228 170 L140 220 L52 170 L52 70 Z"
-                      fill="none" stroke="url(#rim)" stroke-width="16" />
-                <path d="M140 32 L216 74 L216 166 L140 208 L64 166 L64 74 Z"
-                      fill="url(#metalFace)"/>
-              </g>
-
-              <!-- Eyes (bigger + spaced + 3D shine + highlights) -->
-              <g class="eyes">
-                <ellipse class="eyeL" cx="106" cy="128" rx="18" ry="26" fill="url(#eyeShine)"/>
-                <ellipse class="eyeR" cx="174" cy="128" rx="18" ry="26" fill="url(#eyeShine)"/>
-                <circle class="highlight" cx="98"  cy="118" r="3.5" fill="#FFFFFF"/>
-                <circle class="highlight" cx="166" cy="118" r="3.5" fill="#FFFFFF"/>
-              </g>
-
-              <!-- Eyelids (overlay) -->
-              <g class="eyelids">
-                <ellipse class="lid" cx="106" cy="128" rx="19" ry="26" fill="#0e1620" style="transform:scaleY(0)"/>
-                <ellipse class="lid delay" cx="174" cy="128" rx="19" ry="26" fill="#0e1620" style="transform:scaleY(0)"/>
-              </g>
-            </g>
-          </svg>
-        </div>
-      </div>
-    </div>
-
-    <h1 id="headline">From code to companion — <span style="color:var(--cronos)">this is Zero.</span></h1>
+    <h1 id="heroTitle">From code to companion — <span style="color:var(--cronos)">this is Zero.</span></h1>
     <p class="sub">Community brand + real utility across NFTs, wearables, partner collabs and Cronos native culture.</p>
     <div class="btns">
       <a class="btn primary" href="https://dexscreener.com/cronos/0x67ab1ba7be0af7305d67d7deec2344274344655e" target="_blank" rel="noopener">View Chart</a>
@@ -241,159 +123,205 @@
     </div>
   </section>
 
+  <!-- Walker (fixed, crosses screen + climbs headline) -->
+  <div class="zero-walker">
+    <div class="zero-wrap face-right walking" id="zeroWrap">
+      <!-- SVG mascot (hex body + big eyes + Mickey gloves + legs/feet) -->
+      <svg class="zero-anim" id="zeroSVG" viewBox="0 0 280 280" role="img" aria-label="ZERO mascot">
+        <defs>
+          <linearGradient id="metalFace" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%"  stop-color="#1b2a36"/>
+            <stop offset="45%" stop-color="#0e1620"/>
+            <stop offset="100%" stop-color="#263a49"/>
+          </linearGradient>
+          <linearGradient id="rim" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%"  stop-color="#9FB3C3"/>
+            <stop offset="55%" stop-color="#D7E3EC"/>
+            <stop offset="100%" stop-color="#6F8393"/>
+          </linearGradient>
+          <radialGradient id="eyeShine" cx="35%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#FFFFFF"/>
+            <stop offset="70%" stop-color="#F6F7FA"/>
+            <stop offset="100%" stop-color="#EDEFF3"/>
+          </radialGradient>
+          <filter id="softShadow" x="-50%" y="-50%" width="200%" height="200%">
+            <feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#0C283A" flood-opacity="0.35"/>
+          </filter>
+        </defs>
+
+        <g class="zero-core" filter="url(#softShadow)">
+          <!-- Hands (Mickey gloves) -->
+          <g class="hands">
+            <!-- Left glove -->
+            <g class="armL">
+              <path d="M100 150 C92 155, 88 165, 88 176" stroke="#8FEAFF" stroke-width="6" fill="none" opacity=".9"/>
+              <path d="M80 176 c0 -10 8 -16 18 -16 10 0 18 6 18 16 0 10 -8 18 -18 18 -10 0 -18 -8 -18 -18z"
+                    fill="#FFFFFF" stroke="#E6EEF5" stroke-width="2"/>
+              <circle cx="90" cy="170" r="3" fill="#E6EEF5"/><circle cx="96" cy="170" r="3" fill="#E6EEF5"/>
+            </g>
+            <!-- Right glove -->
+            <g class="armR">
+              <path d="M180 150 C188 155, 192 165, 192 176" stroke="#8FEAFF" stroke-width="6" fill="none" opacity=".9"/>
+              <path d="M186 176 c0 -10 8 -16 18 -16 10 0 18 6 18 16 0 10 -8 18 -18 18 -10 0 -18 -8 -18 -18z"
+                    fill="#FFFFFF" stroke="#E6EEF5" stroke-width="2"/>
+              <circle cx="196" cy="170" r="3" fill="#E6EEF5"/><circle cx="202" cy="170" r="3" fill="#E6EEF5"/>
+            </g>
+          </g>
+
+          <!-- Hex body -->
+          <g class="hex">
+            <path d="M140 20 L228 70 L228 170 L140 220 L52 170 L52 70 Z"
+                  fill="none" stroke="url(#rim)" stroke-width="16" />
+            <path d="M140 32 L216 74 L216 166 L140 208 L64 166 L64 74 Z"
+                  fill="url(#metalFace)"/>
+          </g>
+
+          <!-- Eyes (big + 3D shine + highlights) -->
+          <g class="eyes">
+            <ellipse class="eyeL" cx="106" cy="126" rx="18" ry="26" fill="url(#eyeShine)"/>
+            <ellipse class="eyeR" cx="174" cy="126" rx="18" ry="26" fill="url(#eyeShine)"/>
+            <circle cx="98"  cy="116" r="3.5" fill="#FFFFFF" opacity=".9"/>
+            <circle cx="166" cy="116" r="3.5" fill="#FFFFFF" opacity=".9"/>
+          </g>
+          <g class="eyelids">
+            <ellipse class="lid" cx="106" cy="126" rx="19" ry="26" fill="#0e1620" style="transform:scaleY(0)"/>
+            <ellipse class="lid delay" cx="174" cy="126" rx="19" ry="26" fill="#0e1620" style="transform:scaleY(0)"/>
+          </g>
+
+          <!-- Legs + shoes -->
+          <g class="legs">
+            <g class="legL">
+              <rect x="128" y="178" width="8" height="28" rx="4" fill="#5c7284"/>
+              <ellipse cx="128" cy="208" rx="14" ry="6" fill="#dfe9f1"/>
+            </g>
+            <g class="legR">
+              <rect x="144" y="178" width="8" height="28" rx="4" fill="#5c7284"/>
+              <ellipse cx="160" cy="208" rx="14" ry="6" fill="#dfe9f1"/>
+            </g>
+          </g>
+        </g>
+      </svg>
+    </div>
+  </div>
+
   <footer>© ZERO on Cronos. Built with love by the community.</footer>
 
-  <script>
-  (() => {
-    const fx = document.querySelector('.fx-layer');
-    const stage = document.getElementById('stage');
-    const wander = document.querySelector('.wander');
-    const zero = document.getElementById('zeroSvg');
-    const eyes = document.querySelectorAll('.eyeL,.eyeR');
-    const lids = document.querySelectorAll('.eyelids .lid');
-    const handR = document.querySelector('.handR');
-    const intro = document.querySelector('.intro');
-    const headline = document.getElementById('headline');
+<script>
+(() => {
+  const walker   = document.querySelector('.zero-walker');
+  const wrap     = document.getElementById('zeroWrap');   // flips + cycle classes here
+  const svg      = document.getElementById('zeroSVG');
+  const title    = document.getElementById('heroTitle');
+  const lids     = svg.querySelectorAll('.eyelids .lid');
 
-    /* Intro fade */
-    const finishIntro = () => intro.classList.add('is-hidden');
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      setTimeout(finishIntro, 200);
-    } else {
-      window.addEventListener('load', () => setTimeout(finishIntro, 850));
-    }
+  /* Natural random blinks */
+  const blink = () => {
+    lids.forEach((lid,i)=>{
+      lid.style.animation='none'; lid.offsetHeight; // restart
+      lid.style.animation='blinkLid 6200ms ease-in-out 1';
+      if(i===1) lid.style.animationDelay='200ms';
+    });
+  };
+  const loopBlink = () => setTimeout(()=>{ blink(); loopBlink(); }, 3000 + Math.random()*4000);
+  loopBlink();
 
-    /* Eye parallax + curious lean */
-    const moveEyes = (x, y) => {
-      const rect = zero.getBoundingClientRect();
-      const cx = rect.left + rect.width/2, cy = rect.top + rect.height/2;
-      const dx = (x - cx) / rect.width, dy = (y - cy) / rect.height;
-      eyes.forEach(e => e.style.transform = `translate(${dx*2.2}px, ${dy*2.8}px)`);
-      zero.style.setProperty('--tiltX', (dx*6).toFixed(2) + 'deg');
-      zero.style.setProperty('--tiltY', (-dy*4).toFixed(2) + 'deg');
-      zero.style.setProperty('--peekX', (dx*6).toFixed(1) + 'px');
-      zero.style.setProperty('--peekY', (dy*4).toFixed(1) + 'px');
-    };
-    window.addEventListener('mousemove', e => moveEyes(e.clientX, e.clientY));
-    window.addEventListener('mouseleave', () => {
-      eyes.forEach(e => e.style.transform='translate(0,0)');
-      zero.style.setProperty('--tiltX','0deg');
-      zero.style.setProperty('--tiltY','0deg');
-      zero.style.setProperty('--peekX','0px');
-      zero.style.setProperty('--peekY','0px');
+  /* helpers */
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const vw = () => Math.max(document.documentElement.clientWidth,  window.innerWidth  || 0);
+  const vh = () => Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+  const size = () => svg.getBoundingClientRect();
+
+  const place = (x,y) => { walker.style.transform = `translate(${x}px, ${y}px)`; };
+  const runTo = (x,y,dur=800,easing='cubic-bezier(.2,.7,.2,1)') =>
+    new Promise(res=>{
+      walker.style.transition = `transform ${dur}ms ${easing}`;
+      requestAnimationFrame(()=> {
+        place(x,y);
+        const done = () => { walker.removeEventListener('transitionend', done); res(); }
+        walker.addEventListener('transitionend', done, {once:true});
+      });
     });
 
-    /* Headline hover glance */
-    const glanceAt = (el) => {
-      const r = el.getBoundingClientRect();
-      const x = r.left + r.width/2;
-      const y = r.top + r.height/2;
-      moveEyes(x, y);
-      setTimeout(() => { // relax back a bit
-        eyes.forEach(e => e.style.transform='translate(0,0)');
-        zero.style.setProperty('--tiltX','0deg');
-        zero.style.setProperty('--tiltY','0deg');
-        zero.style.setProperty('--peekX','0px');
-        zero.style.setProperty('--peekY','0px');
-      }, 700);
-    };
-    headline.addEventListener('mouseenter', () => glanceAt(headline));
+  const wait = ms => new Promise(r=>setTimeout(r, ms));
 
-    /* Natural random blinks: 3–7s cadence */
-    const blinkOnce = () => {
-      lids.forEach((lid,i)=>{
-        lid.style.animation = 'none'; lid.offsetHeight; // restart
-        lid.style.animation = `blinkLid 6200ms ease-in-out 1`;
-        if (i===1) lid.style.animationDelay = '200ms';
-      });
-    };
-    const scheduleBlink = () => {
-      const delay = 3000 + Math.random()*4000;
-      setTimeout(() => { blinkOnce(); scheduleBlink(); }, delay);
-    };
-    scheduleBlink();
+  /* main route:
+     1) enter from left, walk to headline start
+     2) climb up to just above top of headline
+     3) walk across the headline
+     4) jump off after the word "Zero."
+     5) walk to right edge, reset, loop
+  */
+  async function act(){
+    const s = size();
+    const t = title.getBoundingClientRect();
+    const groundY = Math.min(vh()*0.72, t.top - s.height*0.2); // ground under headline
+    const startX  = -s.width - 20;
+    const endX    = vw() + 40;
 
-    /* Improved CRACK FX on click */
-    const fractureSVG = `
-      <svg viewBox="0 0 230 230" xmlns="http://www.w3.org/2000/svg" fill="none">
-        <!-- shards (subtle) -->
-        <polygon class="shard" points="114,114 128,96 140,112"/>
-        <polygon class="shard" points="112,116 98,98 86,112"/>
-        <polygon class="shard" points="116,118 132,128 120,140"/>
-        <!-- main fracture lines -->
-        <g class="lines">
-          <path d="M115 20 L115 72"/>
-          <path d="M115 72 L88 92"/>
-          <path d="M115 72 L142 94"/>
-          <path d="M88 92 L72 122"/>
-          <path d="M142 94 L158 122"/>
-          <path d="M72 122 L88 156"/>
-          <path d="M158 122 L144 156"/>
-          <path d="M88 156 L115 184"/>
-          <path d="M144 156 L115 184"/>
-          <!-- tiny fractures -->
-          <path d="M115 72 L108 80"/>
-          <path d="M115 72 L122 80"/>
-          <path d="M88 92 L80 96"/>
-          <path d="M142 94 L150 98"/>
-        </g>
-      </svg>`;
+    // where to start climbing
+    const climbStartX = Math.max(20, t.left - s.width*0.6);
+    const climbTopY   = t.top - s.height*0.65; // sit on the “baseline” above text
+    const atopY       = t.top - s.height*0.85; // slightly higher for walking on the text
+    const atopStartX  = Math.max(climbStartX, t.left + 6);
+    const atopEndX    = t.right - s.width*0.6; // near the word “Zero.”
 
-    const poke = (x, y) => {
-      // micro-shake the stage wrapper for haptic feel
-      stage.classList.add('shake');
-      setTimeout(() => stage.classList.remove('shake'), 160);
+    // Enter from left
+    wrap.classList.remove('climbing'); wrap.classList.add('walking', 'face-right');
+    walker.style.transition = 'none'; place(startX, groundY); await wait(20);
 
-      // quick lunge
-      zero.classList.add('poke');
-      setTimeout(()=> zero.classList.remove('poke'), 240);
+    // 1) walk to climb start
+    await runTo(climbStartX, groundY, 1600);
 
-      // soft flash
-      const flash = document.createElement('div');
-      flash.className = 'screen-flash';
-      fx.appendChild(flash);
-      setTimeout(()=> flash.remove(), 120);
+    // 2) climb up
+    wrap.classList.remove('walking'); wrap.classList.add('climbing');
+    await runTo(climbStartX + 8, climbTopY, 850, 'cubic-bezier(.2,.9,.2,1)');
 
-      // fracture at click
-      const c = document.createElement('div');
-      c.className = 'crack';
-      c.style.left = x + 'px';
-      c.style.top  = y + 'px';
-      c.innerHTML  = fractureSVG;
-      fx.appendChild(c);
-      setTimeout(()=> c.remove(), 1200);
-    };
-    zero.addEventListener('click', e => poke(e.clientX, e.clientY));
+    // 3) walk across headline (on top)
+    wrap.classList.remove('climbing'); wrap.classList.add('walking');
+    await runTo(atopStartX, atopY, 400);
+    await runTo(atopEndX,   atopY, Math.max(1200, (atopEndX-atopStartX)*2));
 
-    /* Proximity wave (right hand) */
-    const waveIfNear = (pt) => {
-      const r = handR.getBoundingClientRect();
-      const near =
-        pt.clientX > r.left - 30 && pt.clientX < r.right + 30 &&
-        pt.clientY > r.top  - 30 && pt.clientY < r.bottom + 30;
-      if (near && !handR.classList.contains('is-waving')) {
-        handR.classList.add('is-waving');
-        setTimeout(() => handR.classList.remove('is-waving'), 700);
-      }
-    };
-    window.addEventListener('mousemove', waveIfNear);
-    window.addEventListener('touchmove', (ev) => { if (ev.touches && ev.touches[0]) waveIfNear(ev.touches[0]); }, {passive:true});
+    // 4) jump off after “Zero.”
+    wrap.classList.remove('walking'); // quick hop
+    walker.style.transition = 'transform 380ms cubic-bezier(.2,1,.2,1)';
+    place(atopEndX + 22, atopY + 80);
+    await wait(400);
 
-    /* Wander behavior */
-    const bounds = () => stage.getBoundingClientRect();
-    const wanderLoop = () => {
-      const r = bounds();
-      const padX = r.width * 0.18, padY = r.height * 0.22;
-      const tx = (Math.random()*(r.width - padX*2) + padX) - r.width/2;
-      const ty = (Math.random()*(r.height - padY*2) + padY) - r.height/2;
-      wander.style.transform = `translate(calc(-50% + ${tx}px), calc(-50% + ${ty}px))`;
-      const next = 1800 + Math.random()*1800;
-      setTimeout(wanderLoop, next);
-    };
-    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches){
-      setTimeout(wanderLoop, 1000);
-    }
-  })();
-  </script>
+    // 5) walk to right edge, then reset
+    wrap.classList.add('walking');
+    await runTo(endX, groundY, 1400);
+    wrap.classList.remove('walking');
+
+    // reset to left and loop
+    await wait(250);
+    await act();
+  }
+
+  // Adjust on resize
+  let rid=null;
+  const restart = () => {
+    if (rid) cancelAnimationFrame(rid);
+    rid = requestAnimationFrame(()=> act());
+  };
+
+  // Kickoff
+  if (!reduced){
+    restart();
+    window.addEventListener('resize', () => {
+      // reposition instantly then restart the act
+      walker.style.transition='none';
+      walker.style.transform='translate(-9999px,0)';
+      clearTimeout(window.__zrRsz);
+      window.__zrRsz = setTimeout(restart, 200);
+    });
+  } else {
+    // Reduced motion: just idle float near the headline
+    const t = title.getBoundingClientRect();
+    const y = t.top - 140;
+    const x = t.left - 20;
+    walker.style.transition='none'; place(x,y);
+  }
+})();
+</script>
 </body>
 </html>
