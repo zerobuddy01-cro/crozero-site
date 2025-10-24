@@ -88,6 +88,14 @@
   .eyelids .lid{ transform-origin:50% 50%; animation: blinkLid 6.6s ease-in-out infinite }
   .eyelids .lid.delay{ animation-delay: .22s }
 
+  /* --- One-time wave --- */
+  @keyframes wave {
+    0%{transform: rotate(0deg)} 20%{transform: rotate(-12deg)} 40%{transform: rotate(10deg)}
+    60%{transform: rotate(-8deg)} 80%{transform: rotate(5deg)} 100%{transform: rotate(0deg)}
+  }
+  .armR { transform-box: fill-box; transform-origin: 190px 150px; }
+  .armR-wave { animation: wave 700ms ease-in-out 1; }
+
   /* Reduced motion */
   @media (prefers-reduced-motion: reduce){
     .zero-core, .walking .legL, .walking .legR, .walking .armL, .walking .armR, .climbing .legL, .climbing .legR, .climbing .armL, .climbing .armR, .eyelids .lid { animation:none !important }
@@ -213,6 +221,8 @@
   const svg      = document.getElementById('zeroSVG');
   const title    = document.getElementById('heroTitle');
   const lids     = svg.querySelectorAll('.eyelids .lid');
+  const armR     = svg.querySelector('.armR');
+  const eyes     = svg.querySelectorAll('.eyeL,.eyeR');
 
   /* Natural random blinks */
   const blink = () => {
@@ -244,12 +254,31 @@
 
   const wait = ms => new Promise(r=>setTimeout(r, ms));
 
+  /* Subtle eye tracking toward cursor while walking */
+  const eyeFollow = (evt) => {
+    const r = svg.getBoundingClientRect();
+    const cx = r.left + r.width/2, cy = r.top + r.height/2;
+    const dx = (evt.clientX - cx) / r.width;   // -0.5..0.5-ish
+    const dy = (evt.clientY - cy) / r.height;
+    const maxX = 3, maxY = 3.5;                // small, subtle
+    eyes.forEach(e => e.style.transform = `translate(${dx*maxX}px, ${dy*maxY}px)`);
+  };
+  const resetEyes = () => eyes.forEach(e => e.style.transform = 'translate(0,0)');
+  if (!reduced){
+    window.addEventListener('mousemove', eyeFollow);
+    window.addEventListener('mouseleave', resetEyes);
+    window.addEventListener('scroll', resetEyes, {passive:true});
+  }
+
+  let wavedOnce = false;
+
   /* main route:
-     1) enter from left, walk to headline start
-     2) climb up to just above top of headline
-     3) walk across the headline
-     4) jump off after the word "Zero."
-     5) walk to right edge, reset, loop
+     1) enter from left, walk a bit, wave once
+     2) walk to headline start
+     3) climb up to just above top of headline
+     4) walk across the headline
+     5) jump off after the word "Zero."
+     6) walk to right edge, reset, loop
   */
   async function act(){
     const s = size();
@@ -258,36 +287,47 @@
     const startX  = -s.width - 20;
     const endX    = vw() + 40;
 
-    // where to start climbing
     const climbStartX = Math.max(20, t.left - s.width*0.6);
-    const climbTopY   = t.top - s.height*0.65; // sit on the “baseline” above text
-    const atopY       = t.top - s.height*0.85; // slightly higher for walking on the text
+    const climbTopY   = t.top - s.height*0.65;
+    const atopY       = t.top - s.height*0.85;
     const atopStartX  = Math.max(climbStartX, t.left + 6);
-    const atopEndX    = t.right - s.width*0.6; // near the word “Zero.”
+    const atopEndX    = t.right - s.width*0.6;
 
     // Enter from left
     wrap.classList.remove('climbing'); wrap.classList.add('walking', 'face-right');
     walker.style.transition = 'none'; place(startX, groundY); await wait(20);
 
-    // 1) walk to climb start
-    await runTo(climbStartX, groundY, 1600);
+    // 1) walk in a bit and wave once
+    await runTo(startX + 100, groundY, 900);
+    if (!wavedOnce && !reduced) {
+      // pause arm swing briefly and wave
+      wrap.classList.remove('walking');
+      armR.classList.add('armR-wave');
+      await wait(720);
+      armR.classList.remove('armR-wave');
+      wrap.classList.add('walking');
+      wavedOnce = true;
+    }
 
-    // 2) climb up
+    // 2) walk to climb start
+    await runTo(climbStartX, groundY, 1300);
+
+    // 3) climb up
     wrap.classList.remove('walking'); wrap.classList.add('climbing');
     await runTo(climbStartX + 8, climbTopY, 850, 'cubic-bezier(.2,.9,.2,1)');
 
-    // 3) walk across headline (on top)
+    // 4) walk across headline (on top)
     wrap.classList.remove('climbing'); wrap.classList.add('walking');
     await runTo(atopStartX, atopY, 400);
     await runTo(atopEndX,   atopY, Math.max(1200, (atopEndX-atopStartX)*2));
 
-    // 4) jump off after “Zero.”
-    wrap.classList.remove('walking'); // quick hop
+    // 5) jump off after “Zero.”
+    wrap.classList.remove('walking');
     walker.style.transition = 'transform 380ms cubic-bezier(.2,1,.2,1)';
     place(atopEndX + 22, atopY + 80);
     await wait(400);
 
-    // 5) walk to right edge, then reset
+    // 6) walk to right edge, then reset
     wrap.classList.add('walking');
     await runTo(endX, groundY, 1400);
     wrap.classList.remove('walking');
@@ -308,14 +348,13 @@
   if (!reduced){
     restart();
     window.addEventListener('resize', () => {
-      // reposition instantly then restart the act
       walker.style.transition='none';
       walker.style.transform='translate(-9999px,0)';
       clearTimeout(window.__zrRsz);
       window.__zrRsz = setTimeout(restart, 200);
     });
   } else {
-    // Reduced motion: just idle float near the headline
+    // Reduced motion: idle near the headline
     const t = title.getBoundingClientRect();
     const y = t.top - 140;
     const x = t.left - 20;
