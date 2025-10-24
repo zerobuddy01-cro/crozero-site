@@ -100,7 +100,82 @@
   @media (prefers-reduced-motion: reduce){
     .zero-core, .walking .legL, .walking .legR, .walking .armL, .walking .armR, .climbing .legL, .climbing .legR, .climbing .armL, .climbing .armR, .eyelids .lid { animation:none !important }
   }
-</style>
+/* Hero layout */
+.hero { 
+  min-height: 72vh; 
+  display:grid; 
+  place-items:center; 
+  padding: 64px 16px 32px; 
+  text-align:center; 
+}
+.hero-inner { 
+  position: relative; 
+  width:min(1100px, 92vw); 
+}
+
+/* Headline with “ledge” */
+#headline { 
+  margin: 6px 0 8px; 
+  font-weight: 800; 
+  letter-spacing:.4px; 
+  line-height:1.08; 
+  font-size: clamp(28px, 4.4vw, 54px); 
+  color: #E9F2F8; 
+}
+#headline strong {
+  display:inline-block; 
+  position:relative;
+  background: linear-gradient(180deg,#F6FBFF 20%, #A9B3BC 70%, #7F8A94 100%);
+  -webkit-background-clip:text; 
+  background-clip:text; 
+  color:transparent;
+  padding-bottom: 8px; 
+  box-shadow: 0 2px 0 rgba(255,255,255,0.14) inset;
+}
+
+/* Animation stage */
+#zeroStage { 
+  position:absolute; 
+  left:0; right:0; top:0; 
+  height:420px; 
+  transform:translateY(-40px); 
+  pointer-events:none; 
+  overflow:visible; 
+}
+
+/* ---------- SVG FALLBACK styles ---------- */
+.zero-svg { 
+  width:320px; 
+  height:320px; 
+  position:absolute; 
+  left:50%; 
+  top:0; 
+  transform:translate(-140%, 30px); 
+  will-change: transform; 
+}
+.zero-shadow { 
+  filter: drop-shadow(0 10px 14px rgba(12,40,58,.35)); 
+}
+
+/* subtle eye gloss */
+.eyeHighlight { 
+  fill:rgba(255,255,255,.45); 
+}
+
+@keyframes blinkSoft { 
+  0%, 92%, 100%{ transform:scaleY(1)} 
+  93%{ transform:scaleY(.2)} 
+  96%{ transform:scaleY(1)} 
+}
+.blinkL, .blinkR { 
+  transform-origin: 50% 50%; 
+  animation: blinkSoft 6s ease-in-out infinite; 
+}
+
+@media (prefers-reduced-motion: reduce){ 
+  #zeroStage { display:none; } 
+}
+</style> 
 </head>
 <body>
   <header>
