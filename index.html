@@ -1,207 +1,91 @@
-e<!doctype html>
+<!doctype html>
 <html lang="en">
-<head> <link rel="icon" type="image/png" href="./assets/zero-favicon.png" />
-<link rel="preload" as="image" href="./assets/zero-bg.jpg">
+<head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title id="title-el">ZERO — it all begins with ZERO</title>
-  <meta name="description" id="desc-el" content="">
-  <link rel="icon" href="/assets/logo-zero.png">
-  <meta property="og:title" id="og-title" content="">
-  <meta property="og:description" id="og-desc" content="">
-  <meta property="og:image" id="og-image" content="/assets/og-image.png">
-  <meta property="og:type" content="website">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" id="tw-title" content="">
-  <meta name="twitter:description" id="tw-desc" content="">
-  <meta name="twitter:image" content="/assets/og-image.png">
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style> <style>
-  :root { --cronos:#2EE6FF; }
-  body{
-    margin:0;
-    color:#E8ECF0;
-    font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-    background-color:#060B10;
-    background-image: url('./assets/zero-bg.jpg');
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
-  }
-  .hero{
-    min-height: 68vh;
-    display:grid;
-    place-items:center;
-    text-align:center;
-    padding: 64px 16px 32px;
-  }
-  .hero h1{
-    margin-top: 20px;
-    font-weight: 800;
-    letter-spacing: 0.5px;
-    font-size: clamp(28px, 4.2vw, 48px);
-    background: linear-gradient(180deg,#F6FBFF 20%, #A9B3BC 70%, #7F8A94 100%);
-    -webkit-background-clip: text; background-clip: text; color: transparent;
-  }
-  .sub{
-    opacity:.85; max-width:800px; margin:10px auto 0;
-    font-size: clamp(14px, 1.7vw, 18px);
-  }
-  .btns{ display:flex; gap:12px; justify-content:center; margin-top:22px; flex-wrap:wrap;}
-  .btn{
-    padding:12px 18px; border:1px solid rgba(255,255,255,.12); border-radius:12px;
-    text-decoration:none; color:#EAF3F8; backdrop-filter: blur(6px);
-  }
-  .btn.primary{ background: rgba(46,230,255,.12); border-color: rgba(46,230,255,.35);}
-  .logo{
-    width:min(260px, 44vw);
-    filter: drop-shadow(0 6px 18px rgba(12,40,58,.35));
-  }
-</style>
+  <title>ZERO — it all begins with ZERO</title>
+  <meta name="description" content="ZERO is a Cronos-native community brand with clean visuals and real utility across NFTs, wearables, and partner collabs.">
+  <link rel="icon" type="image/png" href="./assets/zero-favicon.png" />
+  <link rel="preload" as="image" href="./assets/zero-bg.jpg">
+  <style>
     :root { --cronos:#2EE6FF; }
-    .bg-grid {
-      background-image:
-        radial-gradient(circle at 30% 20%, rgba(46,230,255,.18), transparent 40%),
-        url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="52" height="60" viewBox="0 0 52 60"><g fill="none" stroke="rgba(46,230,255,0.15)" stroke-width="1"><polygon points="26,0 52,15 52,45 26,60 0,45 0,15"/></g></svg>');
-      background-size: auto, 52px 60px;
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      color:#E8ECF0;
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background-color:#060B10;
+      background-image: url('./assets/zero-bg.jpg');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
     }
-    .card { border:1px solid rgba(255,255,255,.08); background: rgba(255,255,255,.04); }
-    .badge { border:1px solid rgba(46,230,255,.4); background: rgba(46,230,255,.12); color:#bff6ff }
-    .btn-primary { background: var(--cronos); color:#0b1220; font-weight:800; }
-    .btn-primary:hover { box-shadow: 0 0 30px rgba(46,230,255,.45) }
-    .btn-ghost { border:1px solid rgba(46,230,255,.5); color:#bff6ff; background: rgba(46,230,255,.08) }
-    .btn-ghost:hover { background: rgba(46,230,255,.15) }
-    .btn-outline { border:1px solid rgba(255,255,255,.15); color:rgba(255,255,255,.85) }
-    .btn-outline:hover { background: rgba(255,255,255,.06) }
-    .icon-link { opacity:.85 }
-    .icon-link:hover { opacity:1; filter: drop-shadow(0 0 10px rgba(46,230,255,.6)); }
-    html { scroll-behavior: smooth; }
+    header{
+      position:sticky; top:0; z-index:50;
+      display:flex; gap:18px; align-items:center; justify-content:space-between;
+      padding:14px 18px; background: rgba(6,11,16,.6); backdrop-filter: blur(8px); border-bottom:1px solid rgba(255,255,255,.06);
+    }
+    .brand{display:flex; align-items:center; gap:10px; font-weight:800; letter-spacing:.3px;}
+    .brand img{ width:28px; height:28px }
+    nav a{
+      color:#cfe7f3; text-decoration:none; margin:0 10px; font-size:14px; opacity:.85;
+    }
+    .cta{
+      padding:8px 12px; border:1px solid rgba(255,255,255,.14); border-radius:10px; text-decoration:none; color:#EAF3F8;
+      background: rgba(46,230,255,.12); border-color: rgba(46,230,255,.35);
+    }
+    .hero{
+      min-height: 68vh; display:grid; place-items:center; text-align:center; padding: 64px 16px 32px;
+    }
+    .logo{ width:min(260px, 44vw); filter: drop-shadow(0 6px 18px rgba(12,40,58,.35)); }
+    h1{
+      margin:18px 0 0; font-weight:800; letter-spacing:.4px; line-height:1.08;
+      font-size: clamp(28px, 4.2vw, 48px);
+      background: linear-gradient(180deg,#F6FBFF 20%, #A9B3BC 70%, #7F8A94 100%);
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+    .sub{opacity:.85; max-width:800px; margin:12px auto 0; font-size: clamp(14px, 1.7vw, 18px);}
+    .btns{ display:flex; gap:12px; justify-content:center; margin-top:22px; flex-wrap:wrap;}
+    .btn{
+      padding:12px 18px; border:1px solid rgba(255,255,255,.12); border-radius:12px;
+      text-decoration:none; color:#EAF3F8; backdrop-filter: blur(6px);
+    }
+    .btn.primary{ background: rgba(46,230,255,.12); border-color: rgba(46,230,255,.35);}
+    footer{ text-align:center; padding:30px 16px; opacity:.7; font-size:13px; }
   </style>
 </head>
-<body class="bg-slate-950 text-white">
-  <header class="sticky top-0 z-50 backdrop-blur bg-slate-900/60 border-b border-white/10">
-    <div class="max-w-7xl mx-auto px-5 py-3 flex items-center gap-4">
-      <a href="#home" class="flex items-center gap-3">
-        <img id="logo-el" src="/assets/logo-zero.png" alt="$ZERO hex logo" class="w-9 h-9">
-        <span class="font-black tracking-wider text-cyan-300">$ZERO</span>
-      </a>
-      <nav class="ml-6 hidden md:flex gap-6 text-sm">
-        <a href="#about" class="text-white/80 hover:text-white">About</a>
-        <a href="#nft" class="text-white/80 hover:text-white">NFT Mint</a>
-        <a href="#tokenomics" class="text-white/80 hover:text-white">Tokenomics</a>
-        <a href="#howto" class="text-white/80 hover:text-white">How to Buy</a>
-        <a href="#roadmap" class="text-white/80 hover:text-white">Roadmap</a>
-        <a href="#partners" class="text-white/80 hover:text-white">Allies</a>
-        <a href="#faq" class="text-white/80 hover:text-white">FAQ</a>
-      </nav>
-      <div class="ml-auto flex items-center gap-2">
-        <a id="buy-top" href="#" target="_blank" rel="noreferrer" class="px-3 py-1.5 rounded-2xl btn-primary">Buy $ZERO</a>
-        <a id="x-top" class="icon-link p-2 rounded-xl border border-white/10 hover:bg-white/5" href="#" target="_blank" aria-label="X">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h3l-7.5 9L22 22h-6l-5-6.5L5 22H2l8-10L2 2h6l4.5 5.5L18 2z"/></svg>
-        </a>
-        <a id="discord-top" class="icon-link p-2 rounded-xl border border-white/10 hover:bg-white/5" href="#" target="_blank" aria-label="Discord">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4a16 16 0 0 0-4-1l-.2.4A13 13 0 0 1 12 3c-1.3 0-2.6.2-3.8.6L8 3a16 16 0 0 0-4 1C1.2 7.3 0 11 0 14.8 1.8 17 4 18.6 6.4 20c.3-.4.6-.8.8-1.2-1.1-.4-2.1-1-3-1.8.2.1.4.2.6.3 1 .5 2 .9 3.1 1.1.6.3 1.3.4 2 .4s1.4-.1 2-.4c1.1-.2 2.1-.6 3.1-1.1.2-.1.4-.2.6-.3-.9.8-1.9 1.4-3 1.8.2.4.5.8.8 1.2 2.4-1.4 4.6-3 6.4-5.2C24 11 22.8 7.3 20 4zm-8 9.5c-1 0-1.8-.9-1.8-2s.8-2 1.8-2 1.8.9 1.8 2-.8 2-1.8 2zm6 0c-1 0-1.8-.9-1.8-2s.8-2 1.8-2 1.8.9 1.8 2-.8 2-1.8 2z"/></svg>
-        </a>
-        <a id="tg-top" class="icon-link p-2 rounded-xl border border-white/10 hover:bg-white/5" href="#" target="_blank" aria-label="Telegram">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M9.04 15.648l-.375 5.29c.536 0 .769-.23 1.047-.506l2.517-2.42 5.217 3.83c.956.53 1.637.252 1.898-.885l3.44-16.14.001-.002c.306-1.425-.514-1.985-1.45-1.636L1.42 9.62c-1.39.54-1.37 1.314-.237 1.663l5.06 1.58L19.41 6.46c.604-.397 1.154-.177.702.221"/></svg>
-        </a>
-      </div>
+<body>
+  <header>
+    <div class="brand">
+      <img src="./assets/zero-favicon.png" alt="ZERO icon">
+      <span>ZERO</span>
     </div>
+    <nav>
+      <a href="#about">About</a>
+      <a href="#nft">NFT Mint</a>
+      <a href="#token">Tokenomics</a>
+      <a href="#buy">How to Buy</a>
+      <a href="#roadmap">Roadmap</a>
+      <a href="#allies">Allies</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <a class="cta" href="https://dexscreener.com/cronos/0x67ab1ba7be0af7305d67d7deec2344274344655e" target="_blank" rel="noopener">Buy ZERO</a>
   </header>
 
-  <section id="home" class="min-h-[78vh] grid place-items-center overflow-hidden bg-grid">
-    <div class="max-w-7xl mx-auto px-6 py-20 text-center">
-      <div class="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs badge" id="tagline-el">Cronos • Community • Utility • Meme</div>
-      <h1 class="mt-6 text-4xl md:text-6xl font-extrabold tracking-tight">Built different. Backed by Lions. <span class="text-cyan-300">Powered by Cronos.</span></h1>
-      <p class="mt-5 text-white/70 max-w-3xl mx-auto" id="desc-body"></p>
-      <div class="mt-8 flex flex-wrap gap-3 justify-center" id="hero-buttons"></div>
-      <div class="mt-12 flex justify-center">
-        <img id="logo-hero" src="/assets/logo-zero.png" alt="$ZERO hex mascot" class="w-44 h-44">
+  <section class="hero">
+    <div>
+      <img class="logo" src="./assets/zero-mark.png" alt="ZERO logo">
+      <h1>Built different. Backed by Lions. <span style="color:var(--cronos)">Powered by Cronos.</span></h1>
+      <p class="sub">Community brand + real utility across NFTs, wearables, partner collabs and Cronos native culture.</p>
+      <div class="btns">
+        <a class="btn primary" href="https://dexscreener.com/cronos/0x67ab1ba7be0af7305d67d7deec2344274344655e" target="_blank" rel="noopener">View Chart</a>
+        <a class="btn" href="https://zero-corp.gitbook.io/zerooncronos-official-docs/" target="_blank" rel="noopener">GitBook</a>
+        <a class="btn" href="https://discord.gg/Ch9wXDYu5a" target="_blank" rel="noopener">Discord</a>
+        <a class="btn" href="https://t.me/zerocroonoscommunity/1" target="_blank" rel="noopener">Telegram</a>
       </div>
     </div>
   </section>
 
-  <section id="partners" class="py-20 border-t border-white/10">
-    <div class="max-w-7xl mx-auto px-6">
-      <h2 class="text-3xl md:text-4xl font-extrabold">Allies & Collabs</h2>
-      <p class="mt-2 text-white/70">Shoutout to the wider #CROfam who back us. Quality over quantity. We build together.</p>
-      <div id="partners-grid" class="mt-6 grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"></div>
-    </div>
-  </section>
-
-  <footer class="border-t border-white/10 py-10">
-    <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-6 items-center">
-      <div class="flex items-center gap-3">
-        <img src="/assets/logo-zero.png" alt="$ZERO hex logo small" class="w-7 h-7">
-        <div class="text-white/70 text-sm">© <span id="year"></span> $ZERO • Cronos</div>
-      </div>
-      <div class="flex flex-wrap items-center gap-3 text-sm text-white/80">
-        <a id="gitbook-link" class="btn-outline px-3 py-1.5 rounded-2xl" href="#" target="_blank" rel="noreferrer">GitBook</a>
-        <a id="dex-link" class="btn-outline px-3 py-1.5 rounded-2xl" href="#" target="_blank" rel="noreferrer">DEXScreener</a>
-        <a id="tw-link" class="btn-outline px-3 py-1.5 rounded-2xl" href="#" target="_blank" rel="noreferrer">X / Twitter</a>
-        <a id="dc-link" class="btn-outline px-3 py-1.5 rounded-2xl" href="#" target="_blank" rel="noreferrer">Discord</a>
-        <a id="tg-link" class="btn-outline px-3 py-1.5 rounded-2xl" href="#" target="_blank" rel="noreferrer">Telegram</a>
-      </div>
-    </div>
-  </footer>
-
-<script>
-async function loadContent(){
-  try {
-    const site = await (await fetch('/content/site.json',{cache:'no-store'})).json();
-    const partners = await (await fetch('/content/partners.json',{cache:'no-store'})).json();
-
-    document.getElementById('title-el').textContent = site.title || 'ZERO';
-    document.getElementById('tagline-el').textContent = site.tagline || '';
-    document.getElementById('desc-el').setAttribute('content', site.description || '');
-    document.getElementById('og-title').setAttribute('content', site.title || '');
-    document.getElementById('og-desc').setAttribute('content', site.description || '');
-    document.getElementById('tw-title').setAttribute('content', site.title || '');
-    document.getElementById('tw-desc').setAttribute('content', site.description || '');
-    if(site.og_image){ document.getElementById('og-image').setAttribute('content', site.og_image); }
-    if(site.logo){ document.getElementById('logo-el').src = site.logo; document.getElementById('logo-hero').src = site.logo; }
-    document.getElementById('desc-body').textContent = site.description || '';
-
-    // Links
-    const links = site.links || {};
-    const setHref = (id, url)=>{ const el=document.getElementById(id); if(el && url){ el.href=url; } };
-    setHref('buy-top', links.dexscreener);
-    setHref('x-top', links.twitter);
-    setHref('discord-top', links.discord);
-    setHref('tg-top', links.telegram);
-    setHref('gitbook-link', links.gitbook);
-    setHref('dex-link', links.dexscreener);
-    setHref('tw-link', links.twitter);
-    setHref('dc-link', links.discord);
-    setHref('tg-link', links.telegram);
-
-    // Buttons
-    const hb = document.getElementById('hero-buttons'); hb.innerHTML='';
-    (site.hero_buttons || []).forEach(label=>{
-      const a=document.createElement('a'); a.textContent=label; a.className='px-5 py-3 rounded-2xl btn-outline';
-      if(/buy/i.test(label)) a.href = links.dexscreener || '#';
-      else if(/how/i.test(label)) a.href = '#howto';
-      else if(/token/i.test(label)) a.href = '#tokenomics';
-      else a.href = '#nft';
-      if(/mint/i.test(label)) a.className='px-5 py-3 rounded-2xl btn-primary';
-      hb.appendChild(a);
-    });
-
-    // Partners
-    const grid = document.getElementById('partners-grid'); grid.innerHTML='';
-    (partners.items || []).forEach(p=>{
-      const a=document.createElement('a'); a.href=p.url; a.target='_blank'; a.rel='noreferrer';
-      a.className='rounded-3xl card p-5 hover:bg-white/10 transition';
-      a.innerHTML = `<div class="text-white font-bold">${p.name}</div><div class="text-white/60 text-sm">${p.handle}</div>`;
-      grid.appendChild(a);
-    });
-
-  } catch(e){
-    console.error('Content load failed', e);
-  }
-}
-loadContent();
-document.getElementById('year').textContent = new Date().getFullYear();
-</script>
+  <footer>© ZERO on Cronos. Built with love by the community.</footer>
 </body>
 </html>
