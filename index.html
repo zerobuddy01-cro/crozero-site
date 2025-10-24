@@ -47,10 +47,10 @@
   .btn.primary{ background: rgba(46,230,255,.12); border-color: rgba(46,230,255,.35);}
   footer{ text-align:center; padding:30px 16px; opacity:.7; font-size:13px; }
 
-  /* ===== Walker positioning ===== */
+  /* ===== Walker positioning (FIXED: left:0 so transforms place him on-screen) ===== */
   .zero-walker{
-    position:fixed; /* let him cross the screen + climb headline precisely */
-    left:-9999px; top:0; width:0; height:0; z-index:15; pointer-events:auto;
+    position:fixed;
+    left:0; top:0; width:0; height:0; z-index:30; pointer-events:auto;
   }
   .zero-wrap{ transform: translate3d(0,0,0); will-change: transform; }
   .face-right { transform: scaleX(1); }
@@ -131,10 +131,9 @@
     </div>
   </section>
 
-  <!-- Walker (fixed, crosses screen + climbs headline) -->
+  <!-- Walker -->
   <div class="zero-walker">
     <div class="zero-wrap face-right walking" id="zeroWrap">
-      <!-- SVG mascot (hex body + big eyes + Mickey gloves + legs/feet) -->
       <svg class="zero-anim" id="zeroSVG" viewBox="0 0 280 280" role="img" aria-label="ZERO mascot">
         <defs>
           <linearGradient id="metalFace" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -160,14 +159,12 @@
         <g class="zero-core" filter="url(#softShadow)">
           <!-- Hands (Mickey gloves) -->
           <g class="hands">
-            <!-- Left glove -->
             <g class="armL">
               <path d="M100 150 C92 155, 88 165, 88 176" stroke="#8FEAFF" stroke-width="6" fill="none" opacity=".9"/>
               <path d="M80 176 c0 -10 8 -16 18 -16 10 0 18 6 18 16 0 10 -8 18 -18 18 -10 0 -18 -8 -18 -18z"
                     fill="#FFFFFF" stroke="#E6EEF5" stroke-width="2"/>
               <circle cx="90" cy="170" r="3" fill="#E6EEF5"/><circle cx="96" cy="170" r="3" fill="#E6EEF5"/>
             </g>
-            <!-- Right glove -->
             <g class="armR">
               <path d="M180 150 C188 155, 192 165, 192 176" stroke="#8FEAFF" stroke-width="6" fill="none" opacity=".9"/>
               <path d="M186 176 c0 -10 8 -16 18 -16 10 0 18 6 18 16 0 10 -8 18 -18 18 -10 0 -18 -8 -18 -18z"
@@ -184,7 +181,7 @@
                   fill="url(#metalFace)"/>
           </g>
 
-          <!-- Eyes (big + 3D shine + highlights) -->
+          <!-- Eyes -->
           <g class="eyes">
             <ellipse class="eyeL" cx="106" cy="126" rx="18" ry="26" fill="url(#eyeShine)"/>
             <ellipse class="eyeR" cx="174" cy="126" rx="18" ry="26" fill="url(#eyeShine)"/>
@@ -217,17 +214,17 @@
 <script>
 (() => {
   const walker   = document.querySelector('.zero-walker');
-  const wrap     = document.getElementById('zeroWrap');   // flips + cycle classes here
+  const wrap     = document.getElementById('zeroWrap');
   const svg      = document.getElementById('zeroSVG');
   const title    = document.getElementById('heroTitle');
   const lids     = svg.querySelectorAll('.eyelids .lid');
   const armR     = svg.querySelector('.armR');
   const eyes     = svg.querySelectorAll('.eyeL,.eyeR');
 
-  /* Natural random blinks */
+  /* Blinks */
   const blink = () => {
     lids.forEach((lid,i)=>{
-      lid.style.animation='none'; lid.offsetHeight; // restart
+      lid.style.animation='none'; lid.offsetHeight;
       lid.style.animation='blinkLid 6200ms ease-in-out 1';
       if(i===1) lid.style.animationDelay='200ms';
     });
@@ -258,9 +255,9 @@
   const eyeFollow = (evt) => {
     const r = svg.getBoundingClientRect();
     const cx = r.left + r.width/2, cy = r.top + r.height/2;
-    const dx = (evt.clientX - cx) / r.width;   // -0.5..0.5-ish
+    const dx = (evt.clientX - cx) / r.width;
     const dy = (evt.clientY - cy) / r.height;
-    const maxX = 3, maxY = 3.5;                // small, subtle
+    const maxX = 3, maxY = 3.5;
     eyes.forEach(e => e.style.transform = `translate(${dx*maxX}px, ${dy*maxY}px)`);
   };
   const resetEyes = () => eyes.forEach(e => e.style.transform = 'translate(0,0)');
@@ -272,18 +269,10 @@
 
   let wavedOnce = false;
 
-  /* main route:
-     1) enter from left, walk a bit, wave once
-     2) walk to headline start
-     3) climb up to just above top of headline
-     4) walk across the headline
-     5) jump off after the word "Zero."
-     6) walk to right edge, reset, loop
-  */
   async function act(){
     const s = size();
     const t = title.getBoundingClientRect();
-    const groundY = Math.min(vh()*0.72, t.top - s.height*0.2); // ground under headline
+    const groundY = Math.min(vh()*0.72, t.top - s.height*0.2);
     const startX  = -s.width - 20;
     const endX    = vw() + 40;
 
@@ -293,14 +282,13 @@
     const atopStartX  = Math.max(climbStartX, t.left + 6);
     const atopEndX    = t.right - s.width*0.6;
 
-    // Enter from left
+    // Enter from left (now visible because walker is fixed at left:0)
     wrap.classList.remove('climbing'); wrap.classList.add('walking', 'face-right');
     walker.style.transition = 'none'; place(startX, groundY); await wait(20);
 
-    // 1) walk in a bit and wave once
+    // Walk in a bit and wave once
     await runTo(startX + 100, groundY, 900);
     if (!wavedOnce && !reduced) {
-      // pause arm swing briefly and wave
       wrap.classList.remove('walking');
       armR.classList.add('armR-wave');
       await wait(720);
@@ -309,47 +297,46 @@
       wavedOnce = true;
     }
 
-    // 2) walk to climb start
+    // Walk to climb start
     await runTo(climbStartX, groundY, 1300);
 
-    // 3) climb up
+    // Climb up
     wrap.classList.remove('walking'); wrap.classList.add('climbing');
     await runTo(climbStartX + 8, climbTopY, 850, 'cubic-bezier(.2,.9,.2,1)');
 
-    // 4) walk across headline (on top)
+    // Walk across headline
     wrap.classList.remove('climbing'); wrap.classList.add('walking');
     await runTo(atopStartX, atopY, 400);
     await runTo(atopEndX,   atopY, Math.max(1200, (atopEndX-atopStartX)*2));
 
-    // 5) jump off after “Zero.”
+    // Jump off
     wrap.classList.remove('walking');
     walker.style.transition = 'transform 380ms cubic-bezier(.2,1,.2,1)';
     place(atopEndX + 22, atopY + 80);
     await wait(400);
 
-    // 6) walk to right edge, then reset
+    // Walk to right edge, then loop
     wrap.classList.add('walking');
     await runTo(endX, groundY, 1400);
     wrap.classList.remove('walking');
 
-    // reset to left and loop
     await wait(250);
     await act();
   }
 
-  // Adjust on resize
+  // Resize handling (FIX: don’t hide off-screen permanently)
   let rid=null;
   const restart = () => {
     if (rid) cancelAnimationFrame(rid);
     rid = requestAnimationFrame(()=> act());
   };
 
-  // Kickoff
   if (!reduced){
     restart();
     window.addEventListener('resize', () => {
       walker.style.transition='none';
-      walker.style.transform='translate(-9999px,0)';
+      // briefly move left so we can recompute, then restart
+      place(-2000, 0);
       clearTimeout(window.__zrRsz);
       window.__zrRsz = setTimeout(restart, 200);
     });
