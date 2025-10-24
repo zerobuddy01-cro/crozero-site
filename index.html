@@ -1,39 +1,37 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>ZERO — it all begins with ZERO</title>
-  <meta name="description" content="ZERO is a Cronos-native community brand with clean visuals and real utility across NFTs, wearables, and partner collabs.">
+  <meta name="description" content="ZERO is a Cronos-native community brand with clean visuals and real utility across NFTs, wearables, and partner collabs." />
   <link rel="icon" type="image/png" href="./assets/zero-favicon.png" />
-  <link rel="preload" as="image" href="./assets/zero-bg.jpg">
-  <link rel="preload" as="image" href="./assets/zero-mark.png">
+  <link rel="preload" as="image" href="./assets/zero-bg.jpg" />
+  <link rel="preload" as="image" href="./assets/zero-mark.png" />
 
   <!-- Base styles -->
   <style>
     :root { --cronos:#2EE6FF; }
-    *{box-sizing:border-box}
+    *{ box-sizing:border-box }
     body{
       margin:0; color:#E8ECF0;
       font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      background-color:#060B10;
-      background-image: url('./assets/zero-bg.jpg');
-      background-size: cover; background-position: center; background-attachment: fixed;
+      background:#060B10 url('./assets/zero-bg.jpg') center / cover fixed no-repeat;
     }
     header{
       position:sticky; top:0; z-index:50;
-      display:flex; gap:18px; align-items:center; justify-content:space-between;
+      display:flex; align-items:center; justify-content:space-between; gap:18px;
       padding:14px 18px; background: rgba(6,11,16,.6);
       backdrop-filter: blur(8px); border-bottom:1px solid rgba(255,255,255,.06);
     }
     .brand{display:flex; align-items:center; gap:10px; font-weight:800; letter-spacing:.3px;}
     .brand img{ width:28px; height:28px }
-    nav a{ color:#cfe7f3; text-decoration:none; margin:0 10px; font-size:14px; opacity:.85; }
+    nav a{ color:#cfe7f3; text-decoration:none; margin:0 10px; font-size:14px; opacity:.85 }
     .cta{
       padding:8px 12px; border:1px solid rgba(255,255,255,.14); border-radius:10px; text-decoration:none; color:#EAF3F8;
       background: rgba(46,230,255,.12); border-color: rgba(46,230,255,.35);
     }
-    .hero{ min-height: 68vh; display:grid; place-items:center; text-align:center; padding: 64px 16px 32px; }
+    .hero{ min-height:68vh; display:grid; place-items:center; text-align:center; padding:64px 16px 32px; }
     h1{
       margin:18px 0 0; font-weight:800; letter-spacing:.4px; line-height:1.08;
       font-size: clamp(28px, 4.2vw, 48px);
@@ -50,73 +48,47 @@
     footer{ text-align:center; padding:30px 16px; opacity:.7; font-size:13px; }
   </style>
 
-  <!-- ZERO mascot animation styles -->
+  <!-- Mascot styles (refined eyes, no portal glow) -->
   <style>
-    .zero-wrap { display:grid; place-items:center; margin-bottom: 10px; }
-    .zero-anim { width:min(320px, 52vw); height:auto; transform-origin: 50% 50%; }
+    .stage { position:relative; width:min(520px, 90vw); height:min(420px, 65vh); margin:0 auto 6px; }
+    .wander { position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); transition: transform 1500ms cubic-bezier(.2,.7,.2,1); }
+    .zero-wrap { display:grid; place-items:center; }
+    .zero-anim { width:min(340px, 56vw); height:auto; transform-origin:50% 50%; filter: drop-shadow(0 6px 18px rgba(12,40,58,.35)); }
 
-    /* Float / bob / blink (PAUSED until intro ends) */
+    /* Float/bob loop */
     @keyframes floatX { 0%{ transform: translateX(-10px); } 50%{ transform: translateX(10px); } 100%{ transform: translateX(-10px); } }
-    @keyframes bobY   { 0%{ transform: translateY(0px);} 50%{ transform: translateY(6px);} 100%{ transform: translateY(0px);} }
-    @keyframes blink  { 0%, 96%, 100%{ transform: scaleY(1);} 97%{ transform: scaleY(0.15);} 99%{ transform: scaleY(1);} }
+    @keyframes bobY   { 0%{ transform: translateY(0);} 50%{ transform: translateY(7px);} 100%{ transform: translateY(0);} }
+    .zero-core { animation: floatX 7.8s ease-in-out infinite, bobY 5.4s ease-in-out infinite; }
+    .hands    { animation: floatX 7.8s ease-in-out infinite reverse, bobY 6s ease-in-out infinite; opacity:.95; }
 
-    .zero-core { animation: floatX 7.4s ease-in-out infinite, bobY 5.2s ease-in-out infinite; transform-origin: 50% 50%; }
-    .hands    { animation: floatX 7.4s ease-in-out infinite reverse, bobY 5.8s ease-in-out infinite; opacity:.95; }
-    .eyeL, .eyeR { animation: blink 5.6s cubic-bezier(.2,.6,.2,1) infinite; }
-    /* pause initially */
-    .is-paused .zero-core, .is-paused .hands, .is-paused .eyeL, .is-paused .eyeR { animation-play-state: paused !important; }
+    /* Eyelid blink (overlay lids, not scaling eyes) */
+    @keyframes blinkLid { 0%, 90%, 100%{ transform: scaleY(0);} 94%{ transform: scaleY(1);} 98%{ transform: scaleY(0);} }
+    .eyelids .lid { transform-origin: 50% 50%; animation: blinkLid 6.5s ease-in-out infinite; }
+    .eyelids .lid.delay { animation-delay: .25s; } /* tiny offset for charm */
 
-    @media (prefers-reduced-motion: reduce){
-      .zero-core, .hands, .eyeL, .eyeR { animation: none !important; }
-    }
+    /* Click poke */
+    .zero-anim.poke { animation: poke 260ms cubic-bezier(.2,.8,.2,1); }
+    @keyframes poke{ 0%{transform:scale(1)} 50%{transform:scale(1.06)} 100%{transform:scale(1)} }
 
-    /* FX Layer (crack + portal) */
+    /* Crack effect (no random glow) */
     .fx-layer{ position:fixed; inset:0; pointer-events:none; z-index:60; }
-    .zero-anim.poke .zero-core{ animation-play-state:paused; }
-    .zero-anim.poke { animation: pokeForward 280ms cubic-bezier(.2,.8,.2,1); }
-    @keyframes pokeForward{ 0%{ transform: scale(1); } 50%{ transform: scale(1.08); } 100%{ transform: scale(1); } }
-
     .crack{
       position:fixed; width:220px; height:220px; margin:-110px 0 0 -110px;
-      background: radial-gradient(closest-side, rgba(255,255,255,.18), rgba(255,255,255,0) 60%);
+      background: radial-gradient(closest-side, rgba(255,255,255,.16), rgba(255,255,255,0) 60%);
       filter: drop-shadow(0 2px 10px rgba(12,40,58,.4));
-      opacity:0; transform: scale(.8);
-      animation: crackIn .15s ease-out forwards, heal .9s ease-in forwards .45s;
+      opacity:0; transform: scale(.86);
+      animation: crackIn .14s ease-out forwards, heal .9s ease-in forwards .42s;
     }
     @keyframes crackIn{ to{ opacity:1; transform:scale(1); } }
-    @keyframes heal{ to{ opacity:0; transform:scale(1.15); } }
+    @keyframes heal{ to{ opacity:0; transform:scale(1.12); } }
     .crack svg{ width:100%; height:100%; }
     .crack path{ stroke:#EAF3F8; stroke-width:1.6; stroke-linecap:round; opacity:.95 }
 
-    .portal{
-      position:fixed; width:140px; height:140px; margin:-70px 0 0 -70px; border-radius:50%;
-      box-shadow: 0 0 30px 8px rgba(46,230,255,.18) inset, 0 0 40px rgba(46,230,255,.18);
-      background: radial-gradient(closest-side, rgba(46,230,255,.22), rgba(46,230,255,0) 65%);
-      opacity:0; transform: scale(.6);
-      animation: portalIn .28s ease-out forwards;
-    }
-    @keyframes portalIn{ to{ opacity:1; transform:scale(1); } }
-    .portal.fade{ animation: portalOut .35s ease-in forwards; }
-    @keyframes portalOut{ to{ opacity:0; transform:scale(.6); } }
-    .peek-move  { transition: transform 450ms cubic-bezier(.2,.7,.2,1); }
-
-    /* squash/rotate pop + wink */
-    .zero-pop { animation: popOut 600ms cubic-bezier(.2,.8,.2,1); --popX: 0px; --popY: 0px; --popR: 4deg; }
-    @keyframes popOut{
-      0%{transform: translate(0,0) scale(1) rotate(0deg);}
-      35%{transform: translate(var(--popX),var(--popY)) scale(1.06,.94) rotate(var(--popR));}
-      70%{transform: translate(var(--popX),var(--popY)) scale(.96,1.05) rotate(calc(var(--popR) * -0.6));}
-      100%{transform: translate(0,0) scale(1) rotate(0deg);}
-    }
-    @keyframes wink { 0%,100% { transform: translate(0,0) scaleY(1);} 50% { transform: translate(0,1px) scaleY(.15);} }
-    .eyeL.wink, .eyeR.wink { animation: wink 300ms ease-in-out 1; }
-
-    /* ---------- Intro overlay ---------- */
+    /* Intro overlay (simple, quick) */
     .intro{
       position:fixed; inset:0; z-index:70; display:grid; place-items:center;
-      background:
-        radial-gradient(40vw 40vw at 50% 38%, rgba(46,230,255,.07), transparent 60%),
-        radial-gradient(120vw 90vh at 50% 120%, rgba(0,0,0,.55), rgba(0,0,0,.85));
+      background: radial-gradient(40vw 40vw at 50% 38%, rgba(46,230,255,.07), transparent 60%),
+                  radial-gradient(120vw 90vh at 50% 120%, rgba(0,0,0,.55), rgba(0,0,0,.85));
       transition: opacity .6s ease, visibility .6s ease; opacity:1; visibility:visible;
     }
     .intro__mark{
@@ -124,36 +96,21 @@
       animation: markIn 900ms cubic-bezier(.2,.8,.2,1) forwards;
       opacity:0; transform: translateY(8px) scale(.96);
     }
-    @keyframes markIn{
-      40%{ opacity:1; transform: translateY(0) scale(1.02); }
-      100%{ opacity:1; transform: translateY(0) scale(1); }
-    }
-    .intro__pulse{
-      position:absolute; width:220px; height:220px; border-radius:50%;
-      background: radial-gradient(closest-side, rgba(46,230,255,.18), transparent 70%);
-      filter: blur(12px); opacity:.0; animation:pulse 1.2s ease-out infinite .35s;
-    }
-    @keyframes pulse{
-      0%{opacity:.18; transform:scale(.8);}
-      100%{opacity:0; transform:scale(1.4);}
-    }
+    @keyframes markIn{ 40%{opacity:1; transform:translateY(0) scale(1.02)} 100%{opacity:1; transform:translateY(0) scale(1)} }
     .intro.is-hidden{ opacity:0; visibility:hidden; }
 
-    /* If reduced motion: skip pulse and fade fast */
+    /* Reduced motion */
     @media (prefers-reduced-motion: reduce){
-      .intro__pulse{ display:none; }
+      .zero-core, .hands, .eyelids .lid{ animation: none !important; }
+      .wander{ transition: none !important; }
       .intro{ transition: opacity .2s ease, visibility .2s ease; }
     }
-
-    /* keep page animations paused until intro is gone */
-    body.is-paused header, body.is-paused .hero, body.is-paused footer { pointer-events:none; }
   </style>
 </head>
 
-<body class="is-paused">
-  <!-- Intro overlay -->
+<body>
+  <!-- Intro -->
   <div class="intro" aria-hidden="true">
-    <div class="intro__pulse"></div>
     <img class="intro__mark" src="./assets/zero-mark.png" alt="">
   </div>
 
@@ -174,108 +131,139 @@
     <a class="cta" href="https://dexscreener.com/cronos/0x67ab1ba7be0af7305d67d7deec2344274344655e" target="_blank" rel="noopener">Buy ZERO</a>
   </header>
 
-  <!-- FX layer (for cracks and portals) -->
+  <!-- crack effects only -->
   <div class="fx-layer" aria-hidden="true"></div>
 
   <section class="hero" aria-label="ZERO hero">
-    <div class="peek-move">
-      <div class="zero-wrap" aria-hidden="true">
-        <!-- Animated ZERO mascot -->
-        <svg class="zero-anim" width="280" height="280" viewBox="0 0 280 280" role="img" aria-label="ZERO mascot">
-          <defs>
-            <linearGradient id="metalFace" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%"  stop-color="#1b2a36"/>
-              <stop offset="45%" stop-color="#0e1620"/>
-              <stop offset="100%" stop-color="#263a49"/>
-            </linearGradient>
-            <linearGradient id="rim" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%"  stop-color="#8FA8BB"/>
-              <stop offset="55%" stop-color="#CAD7E2"/>
-              <stop offset="100%" stop-color="#6F8393"/>
-            </linearGradient>
-            <filter id="softShadow" x="-50%" y="-50%" width="200%" height="200%">
-              <feDropShadow dx="0" dy="10" stdDeviation="10" flood-color="#0C283A" flood-opacity="0.35"/>
-            </filter>
-          </defs>
+    <div class="stage" aria-hidden="true">
+      <div class="wander">
+        <div class="zero-wrap">
+          <!-- ZERO mascot -->
+          <svg class="zero-anim" width="320" height="320" viewBox="0 0 280 280" role="img" aria-label="ZERO mascot">
+            <defs>
+              <!-- Face + rim -->
+              <linearGradient id="metalFace" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%"  stop-color="#1b2a36"/>
+                <stop offset="45%" stop-color="#0e1620"/>
+                <stop offset="100%" stop-color="#263a49"/>
+              </linearGradient>
+              <linearGradient id="rim" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%"  stop-color="#9FB3C3"/>
+                <stop offset="55%" stop-color="#D7E3EC"/>
+                <stop offset="100%" stop-color="#6F8393"/>
+              </linearGradient>
 
-          <g class="zero-core" filter="url(#softShadow)">
-            <!-- hands -->
-            <g class="hands">
-              <circle cx="56"  cy="150" r="9" fill="#8FEAFF" opacity="0.95"/>
-              <circle cx="224" cy="150" r="9" fill="#8FEAFF" opacity="0.95"/>
-            </g>
-            <!-- hex -->
-            <g class="hex">
-              <path d="M140 20 L228 70 L228 170 L140 220 L52 170 L52 70 Z"
-                    fill="none" stroke="url(#rim)" stroke-width="16" />
-              <path d="M140 32 L216 74 L216 166 L140 208 L64 166 L64 74 Z"
-                    fill="url(#metalFace)"/>
-            </g>
-            <!-- eyes -->
-            <g class="eyes">
-              <ellipse class="eyeL" cx="112" cy="126" rx="14" ry="22" fill="#FFFFFF"/>
-              <ellipse class="eyeR" cx="168" cy="126" rx="14" ry="22" fill="#FFFFFF"/>
-            </g>
-          </g>
-        </svg>
-      </div>
+              <!-- Eye shine (gives subtle 3D) -->
+              <radialGradient id="eyeShine" cx="35%" cy="30%" r="65%">
+                <stop offset="0%" stop-color="#FFFFFF"/>
+                <stop offset="70%" stop-color="#F6F7FA"/>
+                <stop offset="100%" stop-color="#EDEFF3"/>
+              </radialGradient>
 
-      <h1>Built different. Backed by Lions. <span style="color:var(--cronos)">Powered by Cronos.</span></h1>
-      <p class="sub">Community brand + real utility across NFTs, wearables, partner collabs and Cronos native culture.</p>
-      <div class="btns">
-        <a class="btn primary" href="https://dexscreener.com/cronos/0x67ab1ba7be0af7305d67d7deec2344274344655e" target="_blank" rel="noopener">View Chart</a>
-        <a class="btn" href="https://zero-corp.gitbook.io/zerooncronos-official-docs/" target="_blank" rel="noopener">GitBook</a>
-        <a class="btn" href="https://discord.gg/Ch9wXDYu5a" target="_blank" rel="noopener">Discord</a>
-        <a class="btn" href="https://t.me/zerocroonoscommunity/1" target="_blank" rel="noopener">Telegram</a>
+              <!-- Soft drop shadow -->
+              <filter id="softShadow" x="-50%" y="-50%" width="200%" height="200%">
+                <feDropShadow dx="0" dy="10" stdDeviation="10" flood-color="#0C283A" flood-opacity="0.35"/>
+              </filter>
+            </defs>
+
+            <g class="zero-core" filter="url(#softShadow)">
+              <!-- Hands -->
+              <g class="hands">
+                <circle cx="58"  cy="154" r="9" fill="#8FEAFF" opacity="0.95"/>
+                <circle cx="222" cy="154" r="9" fill="#8FEAFF" opacity="0.95"/>
+              </g>
+
+              <!-- Hex body -->
+              <g class="hex">
+                <path d="M140 20 L228 70 L228 170 L140 220 L52 170 L52 70 Z"
+                      fill="none" stroke="url(#rim)" stroke-width="16" />
+                <path d="M140 32 L216 74 L216 166 L140 208 L64 166 L64 74 Z"
+                      fill="url(#metalFace)"/>
+              </g>
+
+              <!-- Eyes (bigger + spaced + 3D shine + specular highlights) -->
+              <g class="eyes">
+                <ellipse class="eyeL" cx="106" cy="128" rx="18" ry="26" fill="url(#eyeShine)"/>
+                <ellipse class="eyeR" cx="174" cy="128" rx="18" ry="26" fill="url(#eyeShine)"/>
+                <!-- tiny highlights -->
+                <circle cx="98"  cy="118" r="3.5" fill="#FFFFFF" opacity=".9"/>
+                <circle cx="166" cy="118" r="3.5" fill="#FFFFFF" opacity=".9"/>
+              </g>
+
+              <!-- Eyelids (overlay that animates) -->
+              <g class="eyelids">
+                <ellipse class="lid" cx="106" cy="128" rx="19" ry="26" fill="#0e1620" style="transform:scaleY(0)"/>
+                <ellipse class="lid delay" cx="174" cy="128" rx="19" ry="26" fill="#0e1620" style="transform:scaleY(0)"/>
+              </g>
+            </g>
+          </svg>
+        </div>
       </div>
+    </div>
+
+    <h1>Built different. Backed by Lions. <span style="color:var(--cronos)">Powered by Cronos.</span></h1>
+    <p class="sub">Community brand + real utility across NFTs, wearables, partner collabs and Cronos native culture.</p>
+    <div class="btns">
+      <a class="btn primary" href="https://dexscreener.com/cronos/0x67ab1ba7be0af7305d67d7deec2344274344655e" target="_blank" rel="noopener">View Chart</a>
+      <a class="btn" href="https://zero-corp.gitbook.io/zerooncronos-official-docs/" target="_blank" rel="noopener">GitBook</a>
+      <a class="btn" href="https://discord.gg/Ch9wXDYu5a" target="_blank" rel="noopener">Discord</a>
+      <a class="btn" href="https://t.me/zerocroonoscommunity/1" target="_blank" rel="noopener">Telegram</a>
     </div>
   </section>
 
   <footer>© ZERO on Cronos. Built with love by the community.</footer>
 
-  <!-- ZERO Animation Behavior + Intro control -->
   <script>
   (() => {
     const fx = document.querySelector('.fx-layer');
+    const wander = document.querySelector('.wander');
     const zero = document.querySelector('.zero-anim');
+    const lids = document.querySelectorAll('.eyelids .lid');
     const eyes = document.querySelectorAll('.eyeL,.eyeR');
-    const heroInner = document.querySelector('.hero > .peek-move');
     const intro = document.querySelector('.intro');
-    const body = document.body;
-    if(!fx || !zero || !heroInner) return;
 
-    /* ---------- Intro control ---------- */
-    const finishIntro = () => {
-      intro.classList.add('is-hidden');                   // fade out overlay
-      body.classList.remove('is-paused');                 // start page animations
-    };
-    // show intro briefly, then start
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+    /* Intro fade */
+    const finishIntro = () => intro.classList.add('is-hidden');
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       setTimeout(finishIntro, 200);
     } else {
-      window.addEventListener('load', () => setTimeout(finishIntro, 900));
+      window.addEventListener('load', () => setTimeout(finishIntro, 850));
     }
 
-    /* ---------- Eye parallax ---------- */
+    /* Eye parallax (subtle) */
     const moveEyes = (x, y) => {
       const rect = zero.getBoundingClientRect();
       const cx = rect.left + rect.width/2, cy = rect.top + rect.height/2;
       const dx = (x - cx) / rect.width, dy = (y - cy) / rect.height;
-      eyes.forEach(e => e.style.transform = `translate(${dx*2.5}px, ${dy*3}px)`);
+      eyes.forEach(e => e.style.transform = `translate(${dx*2.2}px, ${dy*2.8}px)`);
     };
     window.addEventListener('mousemove', e => moveEyes(e.clientX, e.clientY));
     window.addEventListener('mouseleave', () => eyes.forEach(e => e.style.transform='translate(0,0)'));
 
-    /* ---------- Tap-to-crack + wink ---------- */
+    /* Natural blink: random cadence 3–7s; eyelid overlay scales in/out */
+    const blinkOnce = () => {
+      lids.forEach((lid,i)=>{
+        lid.style.animation = 'none'; // restart
+        lid.offsetHeight;             // reflow
+        lid.style.animation = `blinkLid 6200ms ease-in-out 1`;
+        if (i===1) lid.style.animationDelay = '200ms'; // charming offset
+      });
+    };
+    const scheduleBlink = () => {
+      const delay = 3000 + Math.random()*4000;
+      setTimeout(() => { blinkOnce(); scheduleBlink(); }, delay);
+    };
+    scheduleBlink();
+
+    /* Click-to-crack (kept; feels playful) */
     const crackSVG = `
       <svg viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg">
         <path d="M110 20 L110 70 M110 70 L80 90 M110 70 L140 95 M80 90 L65 120 M140 95 L165 120
                  M65 120 L80 155 M165 120 L150 155 M80 155 L110 180 M150 155 L110 180" fill="none"/>
       </svg>`;
-
     const poke = (x, y) => {
       zero.classList.add('poke');
-      setTimeout(()=> zero.classList.remove('poke'), 280);
+      setTimeout(()=> zero.classList.remove('poke'), 260);
 
       const c = document.createElement('div');
       c.className = 'crack';
@@ -283,59 +271,31 @@
       c.style.top  = y + 'px';
       c.innerHTML  = crackSVG;
       fx.appendChild(c);
-      setTimeout(()=> c.remove(), 1300);
-
-      const eye = Math.random() < 0.5 ? document.querySelector('.eyeL') : document.querySelector('.eyeR');
-      if (eye){
-        eye.classList.add('wink');
-        setTimeout(()=> eye.classList.remove('wink'), 320);
-      }
+      setTimeout(()=> c.remove(), 1200);
     };
     zero.addEventListener('click', e => poke(e.clientX, e.clientY));
 
-    /* ---------- Portal peek + occasional squash/rotate pop ---------- */
-    const rand = (a,b)=> Math.floor(Math.random()*(b-a+1))+a;
-    const schedulePeek = () => {
-      const delay = rand(12000, 20000); // 12–20s
-      setTimeout(() => {
-        const edge = ['left','right','top','bottom'][rand(0,3)];
-        const vw = innerWidth, vh = innerHeight;
-        let px = vw/2, py = vh/2, tx = 0, ty = 0;
+    /* Wander behavior: ZERO glides to random spots inside the stage */
+    const stage = document.querySelector('.stage');
+    const bounds = () => stage.getBoundingClientRect();
 
-        if(edge==='left'){  px=80;      py=rand(160,vh-160); tx=-40; }
-        if(edge==='right'){ px=vw-80;   py=rand(160,vh-160); tx= 40; }
-        if(edge==='top'){   px=rand(160,vw-160); py=90;      ty=-30; }
-        if(edge==='bottom'){px=rand(160,vw-160); py=vh-90;   ty= 30; }
+    const wanderLoop = () => {
+      const r = bounds();
+      // travel range (keep within stage, with some padding)
+      const padX = r.width * 0.18, padY = r.height * 0.22;
+      const tx = (Math.random()*(r.width - padX*2) + padX) - r.width/2;
+      const ty = (Math.random()*(r.height - padY*2) + padY) - r.height/2;
 
-        moveEyes(px, py);
+      // apply transform (center-based)
+      wander.style.transform = `translate(calc(-50% + ${tx}px), calc(-50% + ${ty}px))`;
 
-        const portal=document.createElement('div');
-        portal.className='portal';
-        portal.style.left=px+'px';
-        portal.style.top =py+'px';
-        fx.appendChild(portal);
-
-        if (Math.random() < 0.5) {
-          const dx = (tx ? Math.sign(tx) * 6 : 0);
-          const dy = (ty ? Math.sign(ty) * 4 : 0);
-          const rot = (Math.random() < 0.5 ? -1 : 1) * (3 + Math.random()*3); // 3–6deg
-          zero.style.setProperty('--popX', dx + 'px');
-          zero.style.setProperty('--popY', dy + 'px');
-          zero.style.setProperty('--popR', rot + 'deg');
-          zero.classList.add('zero-pop');
-          setTimeout(()=> zero.classList.remove('zero-pop'), 650);
-        }
-
-        heroInner.style.transform=`translate(${tx}px,${ty}px)`;
-        setTimeout(()=>{
-          portal.classList.add('fade');
-          heroInner.style.transform='translate(0,0)';
-          setTimeout(()=> portal.remove(), 400);
-          schedulePeek();
-        }, 1600);
-      }, delay);
+      // vary next move timing 1.8–3.6s
+      const next = 1800 + Math.random()*1800;
+      setTimeout(wanderLoop, next);
     };
-    schedulePeek();
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+      setTimeout(wanderLoop, 1200); // start after intro
+    }
   })();
   </script>
 </body>
