@@ -72,20 +72,70 @@
     <a class="cta" href="https://dexscreener.com/cronos/0x67ab1ba7be0af7305d67d7deec2344274344655e" target="_blank" rel="noopener">Buy ZERO</a>
   </header>
 
-  <section class="hero">
-    <div>
-      <img class="logo" src="./assets/zero-mark.png" alt="ZERO logo">
-      <h1>Built different. Backed by Lions. <span style="color:var(--cronos)">Powered by Cronos.</span></h1>
-      <p class="sub">Community brand + real utility across NFTs, wearables, partner collabs and Cronos native culture.</p>
-      <div class="btns">
-        <a class="btn primary" href="https://dexscreener.com/cronos/0x67ab1ba7be0af7305d67d7deec2344274344655e" target="_blank" rel="noopener">View Chart</a>
-        <a class="btn" href="https://zero-corp.gitbook.io/zerooncronos-official-docs/" target="_blank" rel="noopener">GitBook</a>
-        <a class="btn" href="https://discord.gg/Ch9wXDYu5a" target="_blank" rel="noopener">Discord</a>
-        <a class="btn" href="https://t.me/zerocroonoscommunity/1" target="_blank" rel="noopener">Telegram</a>
-      </div>
-    </div>
-  </section>
+  <section class="hero" aria-label="ZERO hero">
+  <div>
+    <!-- Keep the small icon in header; this is the animated character -->
+    <div class="zero-wrap" aria-hidden="true">
+      <!-- Inline SVG: metallic Cronos blue-steel hex + eyes + tiny hands -->
+      <svg class="zero-anim" width="280" height="280" viewBox="0 0 280 280" role="img" aria-label="ZERO mascot">
+        <!-- defs: gradients and filters -->
+        <defs>
+          <!-- metallic blue-steel face -->
+          <linearGradient id="metalFace" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%"  stop-color="#1b2a36"/>
+            <stop offset="45%" stop-color="#0e1620"/>
+            <stop offset="100%" stop-color="#263a49"/>
+          </linearGradient>
+          <!-- rim highlight -->
+          <linearGradient id="rim" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%"  stop-color="#8FA8BB"/>
+            <stop offset="55%" stop-color="#CAD7E2"/>
+            <stop offset="100%" stop-color="#6F8393"/>
+          </linearGradient>
+          <!-- soft drop shadow -->
+          <filter id="softShadow" x="-50%" y="-50%" width="200%" height="200%">
+            <feDropShadow dx="0" dy="10" stdDeviation="10" flood-color="#0C283A" flood-opacity="0.35"/>
+          </filter>
+        </defs>
 
+        <!-- group for overall float/bob animation -->
+        <g class="zero-core" filter="url(#softShadow)">
+          <!-- hands (small circles) -->
+          <g class="hands">
+            <circle cx="56"  cy="150" r="9" fill="#8FEAFF" opacity="0.95"/>
+            <circle cx="224" cy="150" r="9" fill="#8FEAFF" opacity="0.95"/>
+          </g>
+
+          <!-- hexagon outline -->
+          <g class="hex">
+            <!-- outer metallic rim -->
+            <path d="M140 20 L228 70 L228 170 L140 220 L52 170 L52 70 Z"
+                  fill="none" stroke="url(#rim)" stroke-width="16" />
+            <!-- inner face -->
+            <path d="M140 32 L216 74 L216 166 L140 208 L64 166 L64 74 Z"
+                  fill="url(#metalFace)"/>
+          </g>
+
+          <!-- eyes -->
+          <g class="eyes">
+            <ellipse class="eyeL" cx="112" cy="126" rx="14" ry="22" fill="#FFFFFF"/>
+            <ellipse class="eyeR" cx="168" cy="126" rx="14" ry="22" fill="#FFFFFF"/>
+          </g>
+        </g>
+      </svg>
+    </div>
+
+    <h1>Built different. Backed by Lions. <span style="color:var(--cronos)">Powered by Cronos.</span></h1>
+    <p class="sub">Community brand + real utility across NFTs, wearables, partner collabs and Cronos native culture.</p>
+    <div class="btns">
+      <a class="btn primary" href="https://dexscreener.com/cronos/0x67ab1ba7be0af7305d67d7deec2344274344655e" target="_blank" rel="noopener">View Chart</a>
+      <a class="btn" href="https://zero-corp.gitbook.io/zerooncronos-official-docs/" target="_blank" rel="noopener">GitBook</a>
+      <a class="btn" href="https://discord.gg/Ch9wXDYu5a" target="_blank" rel="noopener">Discord</a>
+      <a class="btn" href="https://t.me/zerocroonoscommunity/1" target="_blank" rel="noopener">Telegram</a>
+    </div>
+  </div>
+</section>
+  
   <footer>© ZERO on Cronos. Built with love by the community.</footer>
 </body>
 </html>
