@@ -7,20 +7,18 @@
   <meta name="description" content="ZERO is a Cronos-native community brand with clean visuals and real utility across NFTs, wearables, and partner collabs.">
   <link rel="icon" type="image/png" href="./assets/zero-favicon.png" />
   <link rel="preload" as="image" href="./assets/zero-bg.jpg">
+  <link rel="preload" as="image" href="./assets/zero-mark.png">
 
   <!-- Base styles -->
   <style>
     :root { --cronos:#2EE6FF; }
     *{box-sizing:border-box}
     body{
-      margin:0;
-      color:#E8ECF0;
+      margin:0; color:#E8ECF0;
       font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
       background-color:#060B10;
       background-image: url('./assets/zero-bg.jpg');
-      background-size: cover;
-      background-position: center;
-      background-attachment: fixed;
+      background-size: cover; background-position: center; background-attachment: fixed;
     }
     header{
       position:sticky; top:0; z-index:50;
@@ -54,37 +52,32 @@
 
   <!-- ZERO mascot animation styles -->
   <style>
-    /* ---------- Basic floating animation ---------- */
     .zero-wrap { display:grid; place-items:center; margin-bottom: 10px; }
     .zero-anim { width:min(320px, 52vw); height:auto; transform-origin: 50% 50%; }
 
+    /* Float / bob / blink (PAUSED until intro ends) */
     @keyframes floatX { 0%{ transform: translateX(-10px); } 50%{ transform: translateX(10px); } 100%{ transform: translateX(-10px); } }
     @keyframes bobY   { 0%{ transform: translateY(0px);} 50%{ transform: translateY(6px);} 100%{ transform: translateY(0px);} }
     @keyframes blink  { 0%, 96%, 100%{ transform: scaleY(1);} 97%{ transform: scaleY(0.15);} 99%{ transform: scaleY(1);} }
 
     .zero-core { animation: floatX 7.4s ease-in-out infinite, bobY 5.2s ease-in-out infinite; transform-origin: 50% 50%; }
-    .hands { animation: floatX 7.4s ease-in-out infinite reverse, bobY 5.8s ease-in-out infinite; opacity:.95; }
+    .hands    { animation: floatX 7.4s ease-in-out infinite reverse, bobY 5.8s ease-in-out infinite; opacity:.95; }
     .eyeL, .eyeR { animation: blink 5.6s cubic-bezier(.2,.6,.2,1) infinite; }
+    /* pause initially */
+    .is-paused .zero-core, .is-paused .hands, .is-paused .eyeL, .is-paused .eyeR { animation-play-state: paused !important; }
 
     @media (prefers-reduced-motion: reduce){
       .zero-core, .hands, .eyeL, .eyeR { animation: none !important; }
     }
 
-    /* ---------- FX Layer (crack + portal) ---------- */
+    /* FX Layer (crack + portal) */
     .fx-layer{ position:fixed; inset:0; pointer-events:none; z-index:60; }
-
-    /* Tap poke + crack */
     .zero-anim.poke .zero-core{ animation-play-state:paused; }
     .zero-anim.poke { animation: pokeForward 280ms cubic-bezier(.2,.8,.2,1); }
-    @keyframes pokeForward{
-      0%{ transform: scale(1); }
-      50%{ transform: scale(1.08); }
-      100%{ transform: scale(1); }
-    }
+    @keyframes pokeForward{ 0%{ transform: scale(1); } 50%{ transform: scale(1.08); } 100%{ transform: scale(1); } }
 
     .crack{
-      position:fixed; width:220px; height:220px;
-      margin:-110px 0 0 -110px;
+      position:fixed; width:220px; height:220px; margin:-110px 0 0 -110px;
       background: radial-gradient(closest-side, rgba(255,255,255,.18), rgba(255,255,255,0) 60%);
       filter: drop-shadow(0 2px 10px rgba(12,40,58,.4));
       opacity:0; transform: scale(.8);
@@ -95,10 +88,8 @@
     .crack svg{ width:100%; height:100%; }
     .crack path{ stroke:#EAF3F8; stroke-width:1.6; stroke-linecap:round; opacity:.95 }
 
-    /* Portal peek */
     .portal{
-      position:fixed; width:140px; height:140px; margin:-70px 0 0 -70px;
-      border-radius:50%;
+      position:fixed; width:140px; height:140px; margin:-70px 0 0 -70px; border-radius:50%;
       box-shadow: 0 0 30px 8px rgba(46,230,255,.18) inset, 0 0 40px rgba(46,230,255,.18);
       background: radial-gradient(closest-side, rgba(46,230,255,.22), rgba(46,230,255,0) 65%);
       opacity:0; transform: scale(.6);
@@ -109,23 +100,63 @@
     @keyframes portalOut{ to{ opacity:0; transform:scale(.6); } }
     .peek-move  { transition: transform 450ms cubic-bezier(.2,.7,.2,1); }
 
-    /* SPICE: occasional squash/rotate pop + wink */
-    .zero-pop {
-      animation: popOut 600ms cubic-bezier(.2,.8,.2,1);
-      --popX: 0px; --popY: 0px; --popR: 4deg;
-    }
+    /* squash/rotate pop + wink */
+    .zero-pop { animation: popOut 600ms cubic-bezier(.2,.8,.2,1); --popX: 0px; --popY: 0px; --popR: 4deg; }
     @keyframes popOut{
-      0%   { transform: translate(0,0) scale(1) rotate(0deg); }
-      35%  { transform: translate(var(--popX),var(--popY)) scale(1.06,.94) rotate(var(--popR)); }
-      70%  { transform: translate(var(--popX),var(--popY)) scale(.96,1.05) rotate(calc(var(--popR) * -0.6)); }
-      100% { transform: translate(0,0) scale(1) rotate(0deg); }
+      0%{transform: translate(0,0) scale(1) rotate(0deg);}
+      35%{transform: translate(var(--popX),var(--popY)) scale(1.06,.94) rotate(var(--popR));}
+      70%{transform: translate(var(--popX),var(--popY)) scale(.96,1.05) rotate(calc(var(--popR) * -0.6));}
+      100%{transform: translate(0,0) scale(1) rotate(0deg);}
     }
     @keyframes wink { 0%,100% { transform: translate(0,0) scaleY(1);} 50% { transform: translate(0,1px) scaleY(.15);} }
     .eyeL.wink, .eyeR.wink { animation: wink 300ms ease-in-out 1; }
+
+    /* ---------- Intro overlay ---------- */
+    .intro{
+      position:fixed; inset:0; z-index:70; display:grid; place-items:center;
+      background:
+        radial-gradient(40vw 40vw at 50% 38%, rgba(46,230,255,.07), transparent 60%),
+        radial-gradient(120vw 90vh at 50% 120%, rgba(0,0,0,.55), rgba(0,0,0,.85));
+      transition: opacity .6s ease, visibility .6s ease; opacity:1; visibility:visible;
+    }
+    .intro__mark{
+      width:min(120px, 26vw); height:auto; filter: drop-shadow(0 8px 24px rgba(46,230,255,.22));
+      animation: markIn 900ms cubic-bezier(.2,.8,.2,1) forwards;
+      opacity:0; transform: translateY(8px) scale(.96);
+    }
+    @keyframes markIn{
+      40%{ opacity:1; transform: translateY(0) scale(1.02); }
+      100%{ opacity:1; transform: translateY(0) scale(1); }
+    }
+    .intro__pulse{
+      position:absolute; width:220px; height:220px; border-radius:50%;
+      background: radial-gradient(closest-side, rgba(46,230,255,.18), transparent 70%);
+      filter: blur(12px); opacity:.0; animation:pulse 1.2s ease-out infinite .35s;
+    }
+    @keyframes pulse{
+      0%{opacity:.18; transform:scale(.8);}
+      100%{opacity:0; transform:scale(1.4);}
+    }
+    .intro.is-hidden{ opacity:0; visibility:hidden; }
+
+    /* If reduced motion: skip pulse and fade fast */
+    @media (prefers-reduced-motion: reduce){
+      .intro__pulse{ display:none; }
+      .intro{ transition: opacity .2s ease, visibility .2s ease; }
+    }
+
+    /* keep page animations paused until intro is gone */
+    body.is-paused header, body.is-paused .hero, body.is-paused footer { pointer-events:none; }
   </style>
 </head>
 
-<body>
+<body class="is-paused">
+  <!-- Intro overlay -->
+  <div class="intro" aria-hidden="true">
+    <div class="intro__pulse"></div>
+    <img class="intro__mark" src="./assets/zero-mark.png" alt="">
+  </div>
+
   <header>
     <div class="brand">
       <img src="./assets/zero-favicon.png" alt="ZERO icon">
@@ -202,16 +233,30 @@
 
   <footer>© ZERO on Cronos. Built with love by the community.</footer>
 
-  <!-- ZERO Animation Behavior -->
+  <!-- ZERO Animation Behavior + Intro control -->
   <script>
   (() => {
     const fx = document.querySelector('.fx-layer');
     const zero = document.querySelector('.zero-anim');
     const eyes = document.querySelectorAll('.eyeL,.eyeR');
     const heroInner = document.querySelector('.hero > .peek-move');
+    const intro = document.querySelector('.intro');
+    const body = document.body;
     if(!fx || !zero || !heroInner) return;
 
-    /* --- Eye parallax --- */
+    /* ---------- Intro control ---------- */
+    const finishIntro = () => {
+      intro.classList.add('is-hidden');                   // fade out overlay
+      body.classList.remove('is-paused');                 // start page animations
+    };
+    // show intro briefly, then start
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+      setTimeout(finishIntro, 200);
+    } else {
+      window.addEventListener('load', () => setTimeout(finishIntro, 900));
+    }
+
+    /* ---------- Eye parallax ---------- */
     const moveEyes = (x, y) => {
       const rect = zero.getBoundingClientRect();
       const cx = rect.left + rect.width/2, cy = rect.top + rect.height/2;
@@ -221,7 +266,7 @@
     window.addEventListener('mousemove', e => moveEyes(e.clientX, e.clientY));
     window.addEventListener('mouseleave', () => eyes.forEach(e => e.style.transform='translate(0,0)'));
 
-    /* --- Tap-to-crack + wink --- */
+    /* ---------- Tap-to-crack + wink ---------- */
     const crackSVG = `
       <svg viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg">
         <path d="M110 20 L110 70 M110 70 L80 90 M110 70 L140 95 M80 90 L65 120 M140 95 L165 120
@@ -240,7 +285,6 @@
       fx.appendChild(c);
       setTimeout(()=> c.remove(), 1300);
 
-      // playful wink (random eye)
       const eye = Math.random() < 0.5 ? document.querySelector('.eyeL') : document.querySelector('.eyeR');
       if (eye){
         eye.classList.add('wink');
@@ -249,7 +293,7 @@
     };
     zero.addEventListener('click', e => poke(e.clientX, e.clientY));
 
-    /* --- Portal peek + occasional squash/rotate pop --- */
+    /* ---------- Portal peek + occasional squash/rotate pop ---------- */
     const rand = (a,b)=> Math.floor(Math.random()*(b-a+1))+a;
     const schedulePeek = () => {
       const delay = rand(12000, 20000); // 12–20s
@@ -271,7 +315,6 @@
         portal.style.top =py+'px';
         fx.appendChild(portal);
 
-        // 50% chance: ZERO does a tiny squash/rotate "pop"
         if (Math.random() < 0.5) {
           const dx = (tx ? Math.sign(tx) * 6 : 0);
           const dy = (ty ? Math.sign(ty) * 4 : 0);
