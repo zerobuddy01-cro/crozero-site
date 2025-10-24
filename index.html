@@ -30,14 +30,22 @@
     padding:8px 12px; border:1px solid rgba(255,255,255,.14); border-radius:10px;
     text-decoration:none; color:#EAF3F8; background: rgba(46,230,255,.12); border-color: rgba(46,230,255,.35);
   }
-  .hero{ min-height:68vh; display:grid; place-items:center; text-align:center; padding:64px 16px 48px; position:relative; }
-  h1{
-    margin:18px 0 0; font-weight:800; letter-spacing:.4px; line-height:1.08;
-    font-size: clamp(28px, 4.2vw, 48px);
+
+  /* Hero layout */
+  .hero{ min-height:72vh; display:grid; place-items:center; text-align:center; padding:64px 16px 32px; position:relative; }
+  .hero-inner{ position:relative; width:min(1100px, 92vw); }
+
+  #headline{
+    margin:6px 0 8px; font-weight:800; letter-spacing:.4px; line-height:1.08;
+    font-size:clamp(28px,4.4vw,54px); color:#E9F2F8;
+  }
+  #headline strong{
+    display:inline-block; position:relative; padding-bottom:8px;
     background: linear-gradient(180deg,#F6FBFF 20%, #A9B3BC 70%, #7F8A94 100%);
     -webkit-background-clip:text; background-clip:text; color:transparent;
-    display:inline-block; position:relative;
+    box-shadow: 0 2px 0 rgba(255,255,255,.14) inset; /* “ledge” to walk on */
   }
+
   .sub{opacity:.85; max-width:800px; margin:12px auto 0; font-size: clamp(14px, 1.7vw, 18px);}
   .btns{ display:flex; gap:12px; justify-content:center; margin-top:22px; flex-wrap:wrap;}
   .btn{
@@ -47,135 +55,60 @@
   .btn.primary{ background: rgba(46,230,255,.12); border-color: rgba(46,230,255,.35);}
   footer{ text-align:center; padding:30px 16px; opacity:.7; font-size:13px; }
 
-  /* ===== Walker positioning (FIXED: left:0 so transforms place him on-screen) ===== */
-  .zero-walker{
-    position:fixed;
-    left:0; top:0; width:0; height:0; z-index:30; pointer-events:auto;
-  }
+  /* Walker positioning */
+  .zero-walker{ position:fixed; left:0; top:0; width:0; height:0; z-index:30; pointer-events:auto; }
   .zero-wrap{ transform: translate3d(0,0,0); will-change: transform; }
-  .face-right { transform: scaleX(1); }
-  .face-left  { transform: scaleX(-1); }
-
-  /* ===== Mascot visuals ===== */
+  .face-right{ transform:scaleX(1) } .face-left{ transform:scaleX(-1) }
   .zero-anim{ width:220px; height:auto; filter: drop-shadow(0 6px 18px rgba(12,40,58,.35)); }
-  @media (min-width: 900px){ .zero-anim{ width:260px } }
+  @media (min-width:900px){ .zero-anim{ width:260px } }
 
   /* Cute idle life */
   @keyframes floatX { 0%,100%{ transform:translateX(-6px) } 50%{ transform:translateX(6px) } }
   @keyframes bobY   { 0%,100%{ transform:translateY(0) } 50%{ transform:translateY(6px) } }
   @keyframes breathe{ 0%,100%{ transform:scale(1) } 50%{ transform:scale(1.012) } }
   .zero-core{ animation: floatX 8s ease-in-out infinite, bobY 5.6s ease-in-out infinite, breathe 6.8s ease-in-out infinite; transform-origin:50% 50%; }
-  .hands{ opacity:.95 }
 
-  /* Walk cycle (legs + arms swing) */
-  @keyframes legL { 0%,100%{ transform:rotate(14deg) } 50%{ transform:rotate(-14deg) } }
-  @keyframes legR { 0%,100%{ transform:rotate(-14deg)} 50%{ transform:rotate(14deg) } }
-  @keyframes armL { 0%,100%{ transform:rotate(-18deg)} 50%{ transform:rotate(12deg) } }
-  @keyframes armR { 0%,100%{ transform:rotate(12deg) } 50%{ transform:rotate(-18deg)} }
-  .walking .legL{ transform-origin: 140px 200px; animation: legL .6s ease-in-out infinite }
-  .walking .legR{ transform-origin: 140px 200px; animation: legR .6s ease-in-out infinite }
-  .walking .armL{ transform-origin: 100px 150px; animation: armL .6s ease-in-out infinite }
-  .walking .armR{ transform-origin: 180px 150px; animation: armR .6s ease-in-out infinite }
+  /* Walk cycle */
+  @keyframes legL { 0%,100%{ rotate:14deg } 50%{ rotate:-14deg } }
+  @keyframes legR { 0%,100%{ rotate:-14deg } 50%{ rotate:14deg } }
+  @keyframes armL { 0%,100%{ rotate:-18deg } 50%{ rotate:12deg } }
+  @keyframes armR { 0%,100%{ rotate:12deg } 50%{ rotate:-18deg } }
+  .walking .legL{ transform-origin:140px 200px; animation: legL .6s ease-in-out infinite }
+  .walking .legR{ transform-origin:140px 200px; animation: legR .6s ease-in-out infinite }
+  .walking .armL{ transform-origin:100px 150px; animation: armL .6s ease-in-out infinite }
+  .walking .armR{ transform-origin:180px 150px; animation: armR .6s ease-in-out infinite }
 
-  /* Climb cycle (hands up, legs step) */
-  @keyframes climbLeg { 0%,100%{ transform:translateY(0) } 50%{ transform:translateY(-6px) } }
-  @keyframes climbArm { 0%,100%{ transform:rotate(-8deg) } 50%{ transform:rotate(12deg) } }
+  /* Climb cycle */
+  @keyframes climbLeg { 0%,100%{ translate:0 0 } 50%{ translate:0 -6px } }
+  @keyframes climbArm { 0%,100%{ rotate:-8deg } 50%{ rotate:12deg } }
   .climbing .legL, .climbing .legR{ animation: climbLeg .5s ease-in-out infinite }
   .climbing .armL, .climbing .armR{ animation: climbArm .5s ease-in-out infinite }
 
-  /* Blink (eyelid overlays) */
-  @keyframes blinkLid { 0%,92%,100%{ transform: scaleY(0) } 96%{ transform: scaleY(1) } 98%{ transform: scaleY(0) } }
-  .eyelids .lid{ transform-origin:50% 50%; animation: blinkLid 6.6s ease-in-out infinite }
-  .eyelids .lid.delay{ animation-delay: .22s }
-
-  /* --- One-time wave --- */
-  @keyframes wave {
-    0%{transform: rotate(0deg)} 20%{transform: rotate(-12deg)} 40%{transform: rotate(10deg)}
-    60%{transform: rotate(-8deg)} 80%{transform: rotate(5deg)} 100%{transform: rotate(0deg)}
+  /* Softer, natural blink (eyelid overlays) */
+  @keyframes blinkLid{
+    0%, 92%   { transform:scaleY(0) }
+    93%       { transform:scaleY(.2) }
+    95%       { transform:scaleY(1) }
+    97%       { transform:scaleY(.15) }
+    100%      { transform:scaleY(0) }
   }
-  .armR { transform-box: fill-box; transform-origin: 190px 150px; }
-  .armR-wave { animation: wave 700ms ease-in-out 1; }
+  .eyelids .lid{ transform-origin:50% 50%; animation: blinkLid 6.8s cubic-bezier(.2,.6,.2,1) infinite }
+  .eyelids .lid.delay{ animation-delay:.24s }
+
+  /* One-time wave */
+  @keyframes wave {
+    0%{rotate:0} 20%{rotate:-12deg} 40%{rotate:10deg} 60%{rotate:-8deg} 80%{rotate:5deg} 100%{rotate:0}
+  }
+  .armR { transform-box: fill-box; transform-origin:190px 150px; }
+  .armR-wave { animation: wave 700ms ease-in-out 1 }
 
   /* Reduced motion */
   @media (prefers-reduced-motion: reduce){
-    .zero-core, .walking .legL, .walking .legR, .walking .armL, .walking .armR, .climbing .legL, .climbing .legR, .climbing .armL, .climbing .armR, .eyelids .lid { animation:none !important }
+    .zero-core, .walking .legL, .walking .legR, .walking .armL, .walking .armR,
+    .climbing .legL, .climbing .legR, .climbing .armL, .climbing .armR,
+    .eyelids .lid { animation:none !important }
   }
-/* Hero layout */
-.hero { 
-  min-height: 72vh; 
-  display:grid; 
-  place-items:center; 
-  padding: 64px 16px 32px; 
-  text-align:center; 
-}
-.hero-inner { 
-  position: relative; 
-  width:min(1100px, 92vw); 
-}
-
-/* Headline with “ledge” */
-#headline { 
-  margin: 6px 0 8px; 
-  font-weight: 800; 
-  letter-spacing:.4px; 
-  line-height:1.08; 
-  font-size: clamp(28px, 4.4vw, 54px); 
-  color: #E9F2F8; 
-}
-#headline strong {
-  display:inline-block; 
-  position:relative;
-  background: linear-gradient(180deg,#F6FBFF 20%, #A9B3BC 70%, #7F8A94 100%);
-  -webkit-background-clip:text; 
-  background-clip:text; 
-  color:transparent;
-  padding-bottom: 8px; 
-  box-shadow: 0 2px 0 rgba(255,255,255,0.14) inset;
-}
-
-/* Animation stage */
-#zeroStage { 
-  position:absolute; 
-  left:0; right:0; top:0; 
-  height:420px; 
-  transform:translateY(-40px); 
-  pointer-events:none; 
-  overflow:visible; 
-}
-
-/* ---------- SVG FALLBACK styles ---------- */
-.zero-svg { 
-  width:320px; 
-  height:320px; 
-  position:absolute; 
-  left:50%; 
-  top:0; 
-  transform:translate(-140%, 30px); 
-  will-change: transform; 
-}
-.zero-shadow { 
-  filter: drop-shadow(0 10px 14px rgba(12,40,58,.35)); 
-}
-
-/* subtle eye gloss */
-.eyeHighlight { 
-  fill:rgba(255,255,255,.45); 
-}
-
-@keyframes blinkSoft { 
-  0%, 92%, 100%{ transform:scaleY(1)} 
-  93%{ transform:scaleY(.2)} 
-  96%{ transform:scaleY(1)} 
-}
-.blinkL, .blinkR { 
-  transform-origin: 50% 50%; 
-  animation: blinkSoft 6s ease-in-out infinite; 
-}
-
-@media (prefers-reduced-motion: reduce){ 
-  #zeroStage { display:none; } 
-}
-</style> 
+</style>
 </head>
 <body>
   <header>
@@ -196,56 +129,60 @@
   </header>
 
   <section class="hero" aria-label="ZERO hero">
-  <div class="hero-inner">
-    <h1 id="headline">
-      <span>From code to companion —</span>
-      <strong>this is Zero.</strong>
-    </h1>
+    <div class="hero-inner">
+      <h1 id="headline">
+        <span>From code to companion —</span>
+        <strong>this is Zero.</strong>
+      </h1>
 
-    <!-- Animation stage -->
-    <div id="zeroStage" aria-hidden="true"></div>
+      <p class="sub">Community brand + real utility across NFTs, wearables, partner collabs and Cronos native culture.</p>
 
-    <p class="sub">
-      Community brand + real utility across NFTs, wearables, partner collabs and Cronos native culture.
-    </p>
-
-    <div class="btns">
-      <a class="btn primary" href="https://dexscreener.com/cronos/0x67ab1ba7be0af7305d67d7deec2344274344655e" target="_blank" rel="noopener">View Chart</a>
-      <a class="btn" href="https://zero-corp.gitbook.io/zerooncronos-official-docs/" target="_blank" rel="noopener">GitBook</a>
-      <a class="btn" href="https://discord.gg/Ch9wXDYu5a" target="_blank" rel="noopener">Discord</a>
-      <a class="btn" href="https://t.me/zerocroonoscommunity/1" target="_blank" rel="noopener">Telegram</a>
+      <div class="btns">
+        <a class="btn primary" href="https://dexscreener.com/cronos/0x67ab1ba7be0af7305d67d7deec2344274344655e" target="_blank" rel="noopener">View Chart</a>
+        <a class="btn" href="https://zero-corp.gitbook.io/zerooncronos-official-docs/" target="_blank" rel="noopener">GitBook</a>
+        <a class="btn" href="https://discord.gg/Ch9wXDYu5a" target="_blank" rel="noopener">Discord</a>
+        <a class="btn" href="https://t.me/zerocroonoscommunity/1" target="_blank" rel="noopener">Telegram</a>
+      </div>
     </div>
-  </div>
-</section>
+  </section>
 
-
-  <!-- Walker -->
+  <!-- Walker (SVG mascot) -->
   <div class="zero-walker">
     <div class="zero-wrap face-right walking" id="zeroWrap">
       <svg class="zero-anim" id="zeroSVG" viewBox="0 0 280 280" role="img" aria-label="ZERO mascot">
         <defs>
+          <!-- metallic face -->
           <linearGradient id="metalFace" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%"  stop-color="#1b2a36"/>
             <stop offset="45%" stop-color="#0e1620"/>
             <stop offset="100%" stop-color="#263a49"/>
           </linearGradient>
+          <!-- rim -->
           <linearGradient id="rim" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%"  stop-color="#9FB3C3"/>
             <stop offset="55%" stop-color="#D7E3EC"/>
             <stop offset="100%" stop-color="#6F8393"/>
           </linearGradient>
-          <radialGradient id="eyeShine" cx="35%" cy="30%" r="65%">
-            <stop offset="0%" stop-color="#FFFFFF"/>
-            <stop offset="70%" stop-color="#F6F7FA"/>
-            <stop offset="100%" stop-color="#EDEFF3"/>
+
+          <!-- new: eye depth + gloss -->
+          <radialGradient id="eyeShadow" cx="50%" cy="70%" r="85%">
+            <stop offset="0%"  stop-color="#C8D2DC"/>
+            <stop offset="65%" stop-color="#AEBAC6"/>
+            <stop offset="100%" stop-color="#93A3B2"/>
           </radialGradient>
+          <linearGradient id="eyeGloss" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%"  stop-color="rgba(255,255,255,.55)"/>
+            <stop offset="45%" stop-color="rgba(255,255,255,.15)"/>
+            <stop offset="100%" stop-color="rgba(255,255,255,0)"/>
+          </linearGradient>
+
           <filter id="softShadow" x="-50%" y="-50%" width="200%" height="200%">
             <feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#0C283A" flood-opacity="0.35"/>
           </filter>
         </defs>
 
         <g class="zero-core" filter="url(#softShadow)">
-          <!-- Hands (Mickey gloves) -->
+          <!-- hands (white gloves) -->
           <g class="hands">
             <g class="armL">
               <path d="M100 150 C92 155, 88 165, 88 176" stroke="#8FEAFF" stroke-width="6" fill="none" opacity=".9"/>
@@ -261,27 +198,28 @@
             </g>
           </g>
 
-          <!-- Hex body -->
+          <!-- hex body -->
           <g class="hex">
-            <path d="M140 20 L228 70 L228 170 L140 220 L52 170 L52 70 Z"
-                  fill="none" stroke="url(#rim)" stroke-width="16" />
-            <path d="M140 32 L216 74 L216 166 L140 208 L64 166 L64 74 Z"
-                  fill="url(#metalFace)"/>
+            <path d="M140 20 L228 70 L228 170 L140 220 L52 170 L52 70 Z" fill="none" stroke="url(#rim)" stroke-width="16"/>
+            <path d="M140 32 L216 74 L216 166 L140 208 L64 166 L64 74 Z" fill="url(#metalFace)"/>
           </g>
 
-          <!-- Eyes -->
+          <!-- improved eyes -->
           <g class="eyes">
-            <ellipse class="eyeL" cx="106" cy="126" rx="18" ry="26" fill="url(#eyeShine)"/>
-            <ellipse class="eyeR" cx="174" cy="126" rx="18" ry="26" fill="url(#eyeShine)"/>
-            <circle cx="98"  cy="116" r="3.5" fill="#FFFFFF" opacity=".9"/>
-            <circle cx="166" cy="116" r="3.5" fill="#FFFFFF" opacity=".9"/>
+            <ellipse class="eyeL" cx="106" cy="126" rx="18" ry="26" fill="url(#eyeShadow)"/>
+            <ellipse class="eyeR" cx="174" cy="126" rx="18" ry="26" fill="url(#eyeShadow)"/>
+            <circle cx="98"  cy="116" r="3.8" fill="#FFFFFF" opacity=".9"/>
+            <circle cx="166" cy="116" r="3.8" fill="#FFFFFF" opacity=".9"/>
+            <ellipse cx="106" cy="122" rx="6.5" ry="20" fill="url(#eyeGloss)" opacity=".65"/>
+            <ellipse cx="174" cy="122" rx="6.5" ry="20" fill="url(#eyeGloss)" opacity=".65"/>
           </g>
+          <!-- eyelids for blinking -->
           <g class="eyelids">
-            <ellipse class="lid" cx="106" cy="126" rx="19" ry="26" fill="#0e1620" style="transform:scaleY(0)"/>
-            <ellipse class="lid delay" cx="174" cy="126" rx="19" ry="26" fill="#0e1620" style="transform:scaleY(0)"/>
+            <ellipse class="lid"        cx="106" cy="126" rx="19" ry="26" fill="#0e1620" style="transform:scaleY(0)"/>
+            <ellipse class="lid delay"  cx="174" cy="126" rx="19" ry="26" fill="#0e1620" style="transform:scaleY(0)"/>
           </g>
 
-          <!-- Legs + shoes -->
+          <!-- legs + shoes -->
           <g class="legs">
             <g class="legL">
               <rect x="128" y="178" width="8" height="28" rx="4" fill="#5c7284"/>
@@ -301,65 +239,98 @@
 
 <script>
 (() => {
-  const walker   = document.querySelector('.zero-walker');
-  const wrap     = document.getElementById('zeroWrap');
-  const svg      = document.getElementById('zeroSVG');
-  const title    = document.getElementById('headline');
-  const lids     = svg.querySelectorAll('.eyelids .lid');
-  const armR     = svg.querySelector('.armR');
-  const eyes     = svg.querySelectorAll('.eyeL,.eyeR');
+  const walker = document.querySelector('.zero-walker');
+  const wrap   = document.getElementById('zeroWrap');
+  const svg    = document.getElementById('zeroSVG');
+  const title  = document.getElementById('headline');
+  const lids   = svg.querySelectorAll('.eyelids .lid');
+  const armR   = svg.querySelector('.armR');
+  const eyes   = svg.querySelectorAll('.eyeL,.eyeR');
 
-  /* Blinks */
+  /* soft random blink loop */
   const blink = () => {
     lids.forEach((lid,i)=>{
       lid.style.animation='none'; lid.offsetHeight;
-      lid.style.animation='blinkLid 6200ms ease-in-out 1';
-      if(i===1) lid.style.animationDelay='200ms';
+      lid.style.animation='blinkLid 6800ms cubic-bezier(.2,.6,.2,1) 1';
+      if(i===1) lid.style.animationDelay='240ms';
     });
   };
   const loopBlink = () => setTimeout(()=>{ blink(); loopBlink(); }, 3000 + Math.random()*4000);
   loopBlink();
 
-  /* helpers */
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const vw = () => Math.max(document.documentElement.clientWidth,  window.innerWidth  || 0);
   const vh = () => Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
   const size = () => svg.getBoundingClientRect();
+  const place = (x,y)=> walker.style.transform = `translate(${x}px,${y}px)`;
+  const wait  = ms => new Promise(r=>setTimeout(r,ms));
 
-  const place = (x,y) => { walker.style.transform = `translate(${x}px, ${y}px)`; };
-  const runTo = (x,y,dur=800,easing='cubic-bezier(.2,.7,.2,1)') =>
+  const runTo = (x,y,dur=800,ease='cubic-bezier(.2,.7,.2,1)') =>
     new Promise(res=>{
-      walker.style.transition = `transform ${dur}ms ${easing}`;
-      requestAnimationFrame(()=> {
+      walker.style.transition = `transform ${dur}ms ${ease}`;
+      requestAnimationFrame(()=>{
         place(x,y);
-        const done = () => { walker.removeEventListener('transitionend', done); res(); }
-        walker.addEventListener('transitionend', done, {once:true});
+        const done = ()=>{ walker.removeEventListener('transitionend',done); res(); };
+        walker.addEventListener('transitionend',done,{once:true});
       });
     });
 
-  const wait = ms => new Promise(r=>setTimeout(r, ms));
+  /* click / space to wave */
+  const doWave = async () => {
+    if (wrap.classList.contains('climbing')) return;
+    const wasWalking = wrap.classList.contains('walking');
+    wrap.classList.remove('walking');
+    armR.classList.add('armR-wave');
+    await wait(720);
+    armR.classList.remove('armR-wave');
+    if (wasWalking) wrap.classList.add('walking');
+  };
+  window.addEventListener('click', doWave, {passive:true});
+  window.addEventListener('keydown', (e)=>{ if(e.code==='Space') doWave(); });
 
-  /* Subtle eye tracking toward cursor while walking */
+  /* smooth eye-tracking */
+  let eyeEase;
   const eyeFollow = (evt) => {
     const r = svg.getBoundingClientRect();
     const cx = r.left + r.width/2, cy = r.top + r.height/2;
     const dx = (evt.clientX - cx) / r.width;
     const dy = (evt.clientY - cy) / r.height;
-    const maxX = 3, maxY = 3.5;
+    const maxX = 3.2, maxY = 3.6;
     eyes.forEach(e => e.style.transform = `translate(${dx*maxX}px, ${dy*maxY}px)`);
+    if (eyeEase) cancelAnimationFrame(eyeEase);
   };
-  const resetEyes = () => eyes.forEach(e => e.style.transform = 'translate(0,0)');
-  if (!reduced){
-    window.addEventListener('mousemove', eyeFollow);
+  const resetEyes = () => {
+    const start = performance.now();
+    const from = Array.from(eyes).map(e => {
+      const m = e.style.transform.match(/translate\(([-\d.]+)px,\s*([-\d.]+)px\)/);
+      return m ? {x:+m[1], y:+m[2]} : {x:0,y:0};
+    });
+    const dur = 280;
+    const ease = t => t<.5 ? 2*t*t : 1-Math.pow(-2*t+2,2)/2;
+    const step = (now)=>{
+      const p = Math.min(1,(now-start)/dur);
+      eyes.forEach((e,i)=>{
+        const nx = from[i].x*(1-ease(p));
+        const ny = from[i].y*(1-ease(p));
+        e.style.transform = `translate(${nx}px, ${ny}px)`;
+      });
+      if(p<1) eyeEase=requestAnimationFrame(step);
+    };
+    eyeEase=requestAnimationFrame(step);
+  };
+  if(!reduced){
+    window.addEventListener('mousemove', eyeFollow, {passive:true});
     window.addEventListener('mouseleave', resetEyes);
     window.addEventListener('scroll', resetEyes, {passive:true});
   }
 
-  let wavedOnce = false;
+  let wavedOnce=false;
 
   async function act(){
     const s = size();
     const t = title.getBoundingClientRect();
+    const speedScale = vw() < 640 ? 1.35 : 1;
+
     const groundY = Math.min(vh()*0.72, t.top - s.height*0.2);
     const startX  = -s.width - 20;
     const endX    = vw() + 40;
@@ -370,70 +341,61 @@
     const atopStartX  = Math.max(climbStartX, t.left + 6);
     const atopEndX    = t.right - s.width*0.6;
 
-    // Enter from left (now visible because walker is fixed at left:0)
-    wrap.classList.remove('climbing'); wrap.classList.add('walking', 'face-right');
-    walker.style.transition = 'none'; place(startX, groundY); await wait(20);
+    // enter from left
+    wrap.classList.remove('climbing'); wrap.classList.add('walking','face-right');
+    walker.style.transition='none'; place(startX, groundY); await wait(20);
 
-    // Walk in a bit and wave once
-    await runTo(startX + 100, groundY, 900);
-    if (!wavedOnce && !reduced) {
+    // walk in and wave once
+    await runTo(startX + 100, groundY, 900*speedScale);
+    if(!wavedOnce && !reduced){
       wrap.classList.remove('walking');
       armR.classList.add('armR-wave');
       await wait(720);
       armR.classList.remove('armR-wave');
       wrap.classList.add('walking');
-      wavedOnce = true;
+      wavedOnce=true;
     }
 
-    // Walk to climb start
-    await runTo(climbStartX, groundY, 1300);
+    // to climb point
+    await runTo(climbStartX, groundY, 1300*speedScale);
 
-    // Climb up
+    // climb up
     wrap.classList.remove('walking'); wrap.classList.add('climbing');
     await runTo(climbStartX + 8, climbTopY, 850, 'cubic-bezier(.2,.9,.2,1)');
 
-    // Walk across headline
+    // cross headline
     wrap.classList.remove('climbing'); wrap.classList.add('walking');
     await runTo(atopStartX, atopY, 400);
     await runTo(atopEndX,   atopY, Math.max(1200, (atopEndX-atopStartX)*2));
 
-    // Jump off
+    // jump off
     wrap.classList.remove('walking');
     walker.style.transition = 'transform 380ms cubic-bezier(.2,1,.2,1)';
     place(atopEndX + 22, atopY + 80);
     await wait(400);
 
-    // Walk to right edge, then loop
+    // walk to right edge and loop
     wrap.classList.add('walking');
-    await runTo(endX, groundY, 1400);
+    await runTo(endX, groundY, 1400*speedScale);
     wrap.classList.remove('walking');
 
     await wait(250);
     await act();
   }
 
-  // Resize handling (FIX: don’t hide off-screen permanently)
-  let rid=null;
-  const restart = () => {
-    if (rid) cancelAnimationFrame(rid);
-    rid = requestAnimationFrame(()=> act());
-  };
-
-  if (!reduced){
+  const restart = () => requestAnimationFrame(()=> act());
+  if(!reduced){
     restart();
-    window.addEventListener('resize', () => {
+    window.addEventListener('resize', ()=>{
       walker.style.transition='none';
-      // briefly move left so we can recompute, then restart
-      place(-2000, 0);
+      place(-2000,0);
       clearTimeout(window.__zrRsz);
-      window.__zrRsz = setTimeout(restart, 200);
+      window.__zrRsz=setTimeout(restart,200);
     });
-  } else {
-    // Reduced motion: idle near the headline
+  }else{
     const t = title.getBoundingClientRect();
-    const y = t.top - 140;
-    const x = t.left - 20;
-    walker.style.transition='none'; place(x,y);
+    walker.style.transition='none';
+    place(t.left-20, t.top-140);
   }
 })();
 </script>
