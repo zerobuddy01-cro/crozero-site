@@ -43,7 +43,7 @@
     display:inline-block; position:relative; padding-bottom:8px;
     background: linear-gradient(180deg,#F6FBFF 20%, #A9B3BC 70%, #7F8A94 100%);
     -webkit-background-clip:text; background-clip:text; color:transparent;
-    box-shadow: 0 2px 0 rgba(255,255,255,.14) inset; /* “ledge” to walk on */
+    box-shadow: 0 2px 0 rgba(255,255,255,.14) inset;
   }
 
   .sub{opacity:.85; max-width:800px; margin:12px auto 0; font-size: clamp(14px, 1.7vw, 18px);}
@@ -55,20 +55,18 @@
   .btn.primary{ background: rgba(46,230,255,.12); border-color: rgba(46,230,255,.35);}
   footer{ text-align:center; padding:30px 16px; opacity:.7; font-size:13px; }
 
-  /* Walker positioning */
+  /* Walker positioning (unchanged) */
   .zero-walker{ position:fixed; left:0; top:0; width:0; height:0; z-index:30; pointer-events:auto; }
   .zero-wrap{ transform: translate3d(0,0,0); will-change: transform; }
   .face-right{ transform:scaleX(1) } .face-left{ transform:scaleX(-1) }
   .zero-anim{ width:220px; height:auto; filter: drop-shadow(0 6px 18px rgba(12,40,58,.35)); }
   @media (min-width:900px){ .zero-anim{ width:260px } }
 
-  /* Cute idle life */
   @keyframes floatX { 0%,100%{ transform:translateX(-6px) } 50%{ transform:translateX(6px) } }
   @keyframes bobY   { 0%,100%{ transform:translateY(0) } 50%{ transform:translateY(6px) } }
   @keyframes breathe{ 0%,100%{ transform:scale(1) } 50%{ transform:scale(1.012) } }
   .zero-core{ animation: floatX 8s ease-in-out infinite, bobY 5.6s ease-in-out infinite, breathe 6.8s ease-in-out infinite; transform-origin:50% 50%; }
 
-  /* Walk cycle */
   @keyframes legL { 0%,100%{ rotate:14deg } 50%{ rotate:-14deg } }
   @keyframes legR { 0%,100%{ rotate:-14deg } 50%{ rotate:14deg } }
   @keyframes armL { 0%,100%{ rotate:-18deg } 50%{ rotate:12deg } }
@@ -78,13 +76,11 @@
   .walking .armL{ transform-origin:100px 150px; animation: armL .6s ease-in-out infinite }
   .walking .armR{ transform-origin:180px 150px; animation: armR .6s ease-in-out infinite }
 
-  /* Climb cycle */
   @keyframes climbLeg { 0%,100%{ translate:0 0 } 50%{ translate:0 -6px } }
   @keyframes climbArm { 0%,100%{ rotate:-8deg } 50%{ rotate:12deg } }
   .climbing .legL, .climbing .legR{ animation: climbLeg .5s ease-in-out infinite }
   .climbing .armL, .climbing .armR{ animation: climbArm .5s ease-in-out infinite }
 
-  /* Softer, natural blink (eyelid overlays) */
   @keyframes blinkLid{
     0%, 92%   { transform:scaleY(0) }
     93%       { transform:scaleY(.2) }
@@ -95,20 +91,19 @@
   .eyelids .lid{ transform-origin:50% 50%; animation: blinkLid 6.8s cubic-bezier(.2,.6,.2,1) infinite }
   .eyelids .lid.delay{ animation-delay:.24s }
 
-  /* One-time wave */
   @keyframes wave {
     0%{rotate:0} 20%{rotate:-12deg} 40%{rotate:10deg} 60%{rotate:-8deg} 80%{rotate:5deg} 100%{rotate:0}
   }
   .armR { transform-box: fill-box; transform-origin:190px 150px; }
   .armR-wave { animation: wave 700ms ease-in-out 1 }
 
-  /* Reduced motion */
   @media (prefers-reduced-motion: reduce){
     .zero-core, .walking .legL, .walking .legR, .walking .armL, .walking .armR,
     .climbing .legL, .climbing .legR, .climbing .armL, .climbing .armR,
     .eyelids .lid { animation:none !important }
   }
-  /* Bug Blaster styles */
+
+  /* ========== Bug Blaster styles (namespaced) ========== */
   .glass{background:rgba(255,255,255,.06);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.08);border-radius:14px}
   .bb-card{padding:18px;box-shadow:0 12px 28px rgba(0,0,0,.35)}
   .bb-canvas{width:100%;aspect-ratio:16/10;border-radius:16px;background:#05080f;display:block}
@@ -132,6 +127,7 @@
       <a href="#roadmap">Roadmap</a>
       <a href="#allies">Allies</a>
       <a href="#faq">FAQ</a>
+      <!-- Optional: <a href="#game">Play</a> -->
     </nav>
     <a class="cta" href="https://dexscreener.com/cronos/0x67ab1ba7be0af7305d67d7deec2344274344655e" target="_blank" rel="noopener">Buy ZERO</a>
   </header>
@@ -154,25 +150,43 @@
     </div>
   </section>
 
+  <!-- ====== NEW: Play section (Bug Blaster) ====== -->
+  <section id="game" class="glass bb-card" aria-label="Bug Blaster" style="width:min(1100px,92vw);margin:0 auto 28px;">
+    <h2 style="margin:0 0 8px">Bug Blaster</h2>
+    <p style="margin:0 0 10px;opacity:.8">Move to dodge. Auto fire on. Blast code bugs and avoid asteroids.</p>
+
+    <div style="position:relative">
+      <canvas id="bugBlasterCanvas" class="bb-canvas" aria-label="Bug Blaster"></canvas>
+      <div class="bb-hud">
+        <div>Score: <span id="bbScore">0</span> &nbsp; Best: <span id="bbBest">0</span></div>
+        <div class="bb-pill" id="bbState">Tap or click to move</div>
+      </div>
+    </div>
+
+    <div class="bb-controls">
+      <button class="bb-btn" id="bbRestart">Restart</button>
+      <button class="bb-btn" id="bbMute">Mute FX</button>
+    </div>
+
+    <p style="font-size:12px;opacity:.7;margin-top:8px">Desktop: mouse or WASD/Arrows. Mobile: touch and drag.</p>
+  </section>
+
   <!-- Walker (SVG mascot) -->
   <div class="zero-walker">
     <div class="zero-wrap face-right walking" id="zeroWrap">
       <svg class="zero-anim" id="zeroSVG" viewBox="0 0 280 280" role="img" aria-label="ZERO mascot">
         <defs>
-          <!-- metallic face -->
           <linearGradient id="metalFace" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%"  stop-color="#1b2a36"/>
             <stop offset="45%" stop-color="#0e1620"/>
             <stop offset="100%" stop-color="#263a49"/>
           </linearGradient>
-          <!-- rim -->
           <linearGradient id="rim" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%"  stop-color="#9FB3C3"/>
             <stop offset="55%" stop-color="#D7E3EC"/>
             <stop offset="100%" stop-color="#6F8393"/>
           </linearGradient>
 
-          <!-- new: eye depth + gloss -->
           <radialGradient id="eyeShadow" cx="50%" cy="70%" r="85%">
             <stop offset="0%"  stop-color="#C8D2DC"/>
             <stop offset="65%" stop-color="#AEBAC6"/>
@@ -190,7 +204,6 @@
         </defs>
 
         <g class="zero-core" filter="url(#softShadow)">
-          <!-- hands (white gloves) -->
           <g class="hands">
             <g class="armL">
               <path d="M100 150 C92 155, 88 165, 88 176" stroke="#8FEAFF" stroke-width="6" fill="none" opacity=".9"/>
@@ -206,13 +219,11 @@
             </g>
           </g>
 
-          <!-- hex body -->
           <g class="hex">
             <path d="M140 20 L228 70 L228 170 L140 220 L52 170 L52 70 Z" fill="none" stroke="url(#rim)" stroke-width="16"/>
             <path d="M140 32 L216 74 L216 166 L140 208 L64 166 L64 74 Z" fill="url(#metalFace)"/>
           </g>
 
-          <!-- improved eyes -->
           <g class="eyes">
             <ellipse class="eyeL" cx="106" cy="126" rx="18" ry="26" fill="url(#eyeShadow)"/>
             <ellipse class="eyeR" cx="174" cy="126" rx="18" ry="26" fill="url(#eyeShadow)"/>
@@ -221,13 +232,11 @@
             <ellipse cx="106" cy="122" rx="6.5" ry="20" fill="url(#eyeGloss)" opacity=".65"/>
             <ellipse cx="174" cy="122" rx="6.5" ry="20" fill="url(#eyeGloss)" opacity=".65"/>
           </g>
-          <!-- eyelids for blinking -->
           <g class="eyelids">
             <ellipse class="lid"        cx="106" cy="126" rx="19" ry="26" fill="#0e1620" style="transform:scaleY(0)"/>
             <ellipse class="lid delay"  cx="174" cy="126" rx="19" ry="26" fill="#0e1620" style="transform:scaleY(0)"/>
           </g>
 
-          <!-- legs + shoes -->
           <g class="legs">
             <g class="legL">
               <rect x="128" y="178" width="8" height="28" rx="4" fill="#5c7284"/>
@@ -246,165 +255,161 @@
   <footer>© ZERO on Cronos. Built with love by the community.</footer>
 
 <script>
-(() => {
-  const walker = document.querySelector('.zero-walker');
-  const wrap   = document.getElementById('zeroWrap');
-  const svg    = document.getElementById('zeroSVG');
-  const title  = document.getElementById('headline');
-  const lids   = svg.querySelectorAll('.eyelids .lid');
-  const armR   = svg.querySelector('.armR');
-  const eyes   = svg.querySelectorAll('.eyeL,.eyeR');
+/* Bug Blaster - embedded version */
+(function(){
+  const canvas = document.getElementById('bugBlasterCanvas');
+  if(!canvas) return;
+  const scoreEl = document.getElementById('bbScore');
+  const bestEl  = document.getElementById('bbBest');
+  const restart = document.getElementById('bbRestart');
+  const muteBtn = document.getElementById('bbMute');
+  const stateEl = document.getElementById('bbState');
 
-  /* soft random blink loop */
-  const blink = () => {
-    lids.forEach((lid,i)=>{
-      lid.style.animation='none'; lid.offsetHeight;
-      lid.style.animation='blinkLid 6800ms cubic-bezier(.2,.6,.2,1) 1';
-      if(i===1) lid.style.animationDelay='240ms';
-    });
-  };
-  const loopBlink = () => setTimeout(()=>{ blink(); loopBlink(); }, 3000 + Math.random()*4000);
-  loopBlink();
+  const ctx = canvas.getContext('2d');
+  const dpr = Math.min(2, window.devicePixelRatio || 1);
+  let W=800,H=500;
 
-  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const vw = () => Math.max(document.documentElement.clientWidth,  window.innerWidth  || 0);
-  const vh = () => Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
-  const size = () => svg.getBoundingClientRect();
-  const place = (x,y)=> walker.style.transform = `translate(${x}px,${y}px)`;
-  const wait  = ms => new Promise(r=>setTimeout(r,ms));
+  function resize(){
+    const r = canvas.getBoundingClientRect();
+    W = Math.max(320, Math.floor(r.width));
+    H = Math.max(320, Math.floor(r.height));
+    canvas.width = W*dpr; canvas.height = H*dpr;
+    canvas.style.width = W+'px'; canvas.style.height = H+'px';
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+  }
+  resize(); new ResizeObserver(resize).observe(canvas);
 
-  const runTo = (x,y,dur=800,ease='cubic-bezier(.2,.7,.2,1)') =>
-    new Promise(res=>{
-      walker.style.transition = `transform ${dur}ms ${ease}`;
-      requestAnimationFrame(()=>{
-        place(x,y);
-        const done = ()=>{ walker.removeEventListener('transitionend',done); res(); };
-        walker.addEventListener('transitionend',done,{once:true});
-      });
-    });
-
-  /* click / space to wave */
-  const doWave = async () => {
-    if (wrap.classList.contains('climbing')) return;
-    const wasWalking = wrap.classList.contains('walking');
-    wrap.classList.remove('walking');
-    armR.classList.add('armR-wave');
-    await wait(720);
-    armR.classList.remove('armR-wave');
-    if (wasWalking) wrap.classList.add('walking');
-  };
-  window.addEventListener('click', doWave, {passive:true});
-  window.addEventListener('keydown', (e)=>{ if(e.code==='Space') doWave(); });
-
-  /* smooth eye-tracking */
-  let eyeEase;
-  const eyeFollow = (evt) => {
-    const r = svg.getBoundingClientRect();
-    const cx = r.left + r.width/2, cy = r.top + r.height/2;
-    const dx = (evt.clientX - cx) / r.width;
-    const dy = (evt.clientY - cy) / r.height;
-    const maxX = 3.2, maxY = 3.6;
-    eyes.forEach(e => e.style.transform = `translate(${dx*maxX}px, ${dy*maxY}px)`);
-    if (eyeEase) cancelAnimationFrame(eyeEase);
-  };
-  const resetEyes = () => {
-    const start = performance.now();
-    const from = Array.from(eyes).map(e => {
-      const m = e.style.transform.match(/translate\(([-\d.]+)px,\s*([-\d.]+)px\)/);
-      return m ? {x:+m[1], y:+m[2]} : {x:0,y:0};
-    });
-    const dur = 280;
-    const ease = t => t<.5 ? 2*t*t : 1-Math.pow(-2*t+2,2)/2;
-    const step = (now)=>{
-      const p = Math.min(1,(now-start)/dur);
-      eyes.forEach((e,i)=>{
-        const nx = from[i].x*(1-ease(p));
-        const ny = from[i].y*(1-ease(p));
-        e.style.transform = `translate(${nx}px, ${ny}px)`;
-      });
-      if(p<1) eyeEase=requestAnimationFrame(step);
-    };
-    eyeEase=requestAnimationFrame(step);
-  };
-  if(!reduced){
-    window.addEventListener('mousemove', eyeFollow, {passive:true});
-    window.addEventListener('mouseleave', resetEyes);
-    window.addEventListener('scroll', resetEyes, {passive:true});
+  // tiny audio
+  let muted=false;
+  const AC = window.AudioContext ? new AudioContext() : null;
+  function beep(f=600,d=0.05,v=0.03){
+    if(muted || !AC) return;
+    const o=AC.createOscillator(), g=AC.createGain();
+    o.type='square'; o.frequency.value=f; g.gain.value=v; o.connect(g); g.connect(AC.destination);
+    o.start(); setTimeout(()=>o.stop(), d*1000);
   }
 
-  let wavedOnce=false;
+  // state
+  const player = {x:W*.5,y:H*.8,r:14,s:300,alive:true};
+  const bullets=[], bugs=[], rocks=[];
+  let last=0, spawn=0, fire=0, run=true, score=0, tAlive=0, mult=1;
 
-  async function act(){
-    const s = size();
-    const t = title.getBoundingClientRect();
-    const speedScale = vw() < 640 ? 1.35 : 1;
+  function reset(){
+    player.x=W*.5; player.y=H*.8; player.alive=true;
+    bullets.length=0; bugs.length=0; rocks.length=0;
+    last=0; spawn=0; fire=0; run=true; score=0; tAlive=0; mult=1;
+    stateEl.textContent='Tap or click to move';
+  }
 
-    const groundY = Math.min(vh()*0.72, t.top - s.height*0.2);
-    const startX  = -s.width - 20;
-    const endX    = vw() + 40;
+  const keys={};
+  addEventListener('keydown',e=>{ keys[e.key.toLowerCase()]=true; if(e.key===' ') e.preventDefault();});
+  addEventListener('keyup',e=>{ keys[e.key.toLowerCase()]=false; });
 
-    const climbStartX = Math.max(20, t.left - s.width*0.6);
-    const climbTopY   = t.top - s.height*0.65;
-    const atopY       = t.top - s.height*0.85;
-    const atopStartX  = Math.max(climbStartX, t.left + 6);
-    const atopEndX    = t.right - s.width*0.6;
+  let pointer=null;
+  function setPtr(e){ const r=canvas.getBoundingClientRect();
+    const x=(e.clientX??e.touches[0].clientX)-r.left, y=(e.clientY??e.touches[0].clientY)-r.top; pointer={x,y}; }
+  canvas.addEventListener('pointerdown',e=>{ canvas.setPointerCapture(e.pointerId); setPtr(e); });
+  canvas.addEventListener('pointermove',setPtr);
+  canvas.addEventListener('pointerup',()=>pointer=null);
+  canvas.addEventListener('touchstart',()=>{ if(AC && AC.state==='suspended') AC.resume(); }, {passive:true});
 
-    // enter from left
-    wrap.classList.remove('climbing'); wrap.classList.add('walking','face-right');
-    walker.style.transition='none'; place(startX, groundY); await wait(20);
+  restart.onclick=reset;
+  muteBtn.onclick=()=>{ muted=!muted; muteBtn.textContent = muted?'Unmute FX':'Mute FX'; };
 
-    // walk in and wave once
-    await runTo(startX + 100, groundY, 900*speedScale);
-    if(!wavedOnce && !reduced){
-      wrap.classList.remove('walking');
-      armR.classList.add('armR-wave');
-      await wait(720);
-      armR.classList.remove('armR-wave');
-      wrap.classList.add('walking');
-      wavedOnce=true;
+  function spawnBug(){
+    const x=20+Math.random()*(W-40), y=-20, vy=55+Math.random()*40+tAlive*0.4, amp=20+Math.random()*30, fq=1+Math.random()*1.5;
+    bugs.push({x,y,baseX:x,t:0,amp:amp,fq:fq,vy:vy,r:12,hp:2});
+  }
+  function spawnRock(){
+    const x=Math.random()<0.5?-20:W+20, y=10+Math.random()*(H*.5), vx=(x<0?1:-1)*(40+Math.random()*60), vy=20+Math.random()*40, r=14+Math.random()*14;
+    rocks.push({x,y,vx,vy,r});
+  }
+
+  function update(dt){
+    if(!run) return;
+    tAlive+=dt; mult=1+Math.floor(tAlive/10);
+
+    let dx=0,dy=0,s=player.s;
+    if(keys['a']||keys['arrowleft']) dx-=1;
+    if(keys['d']||keys['arrowright']) dx+=1;
+    if(keys['w']||keys['arrowup']) dy-=1;
+    if(keys['s']||keys['arrowdown']) dy+=1;
+    if(pointer){ const k=8*dt; player.x+= (pointer.x-player.x)*k; player.y+= (pointer.y-player.y)*k; }
+    else { player.x+=dx*s*dt; player.y+=dy*s*dt; }
+    player.x=Math.max(16,Math.min(W-16,player.x)); player.y=Math.max(16,Math.min(H-16,player.y));
+
+    fire-=dt; const rate=0.18;
+    if(fire<=0 && player.alive){ bullets.push({x:player.x,y:player.y-12,vy:-520,r:3}); beep(760,0.03,0.02); fire=rate; }
+
+    spawn+=dt; if(spawn>0.65){ spawnBug(); spawn=0; }
+    if(Math.random()<0.02+tAlive*0.0008) spawnRock();
+
+    for(let i=bullets.length-1;i>=0;i--){ const b=bullets[i]; b.y+=b.vy*dt; if(b.y<-10) bullets.splice(i,1); }
+    for(let i=bugs.length-1;i>=0;i--){ const e=bugs[i]; e.t+=dt; e.x=e.baseX+Math.sin(e.t*e.fq*2)*e.amp; e.y+=e.vy*dt; if(e.y>H+30) bugs.splice(i,1); }
+    for(let i=rocks.length-1;i>=0;i--){ const r=rocks[i]; r.x+=r.vx*dt; r.y+=r.vy*dt; if(r.x<-40||r.x>W+40||r.y>H+40) rocks.splice(i,1); }
+
+    // bullet hits bug
+    for(let i=bugs.length-1;i>=0;i--){
+      const e=bugs[i];
+      for(let j=bullets.length-1;j>=0;j--){
+        const b=bullets[j]; const dx=e.x-b.x, dy=e.y-b.y; if(dx*dx+dy*dy<(e.r+b.r)*(e.r+b.r)){
+          bullets.splice(j,1); e.hp--; if(e.hp<=0){ score+=10*mult; bugs.splice(i,1); beep(520,0.05,0.03); } else { beep(620,0.03,0.02); }
+          break;
+        }
+      }
     }
-
-    // to climb point
-    await runTo(climbStartX, groundY, 1300*speedScale);
-
-    // climb up
-    wrap.classList.remove('walking'); wrap.classList.add('climbing');
-    await runTo(climbStartX + 8, climbTopY, 850, 'cubic-bezier(.2,.9,.2,1)');
-
-    // cross headline
-    wrap.classList.remove('climbing'); wrap.classList.add('walking');
-    await runTo(atopStartX, atopY, 400);
-    await runTo(atopEndX,   atopY, Math.max(1200, (atopEndX-atopStartX)*2));
-
-    // jump off
-    wrap.classList.remove('walking');
-    walker.style.transition = 'transform 380ms cubic-bezier(.2,1,.2,1)';
-    place(atopEndX + 22, atopY + 80);
-    await wait(400);
-
-    // walk to right edge and loop
-    wrap.classList.add('walking');
-    await runTo(endX, groundY, 1400*speedScale);
-    wrap.classList.remove('walking');
-
-    await wait(250);
-    await act();
+    // player hits enemy
+    function hit(ax,ay,ar,bx,by,br){ const dx=ax-bx, dy=ay-by; return dx*dx+dy*dy<(ar+br)*(ar+br); }
+    if(player.alive){
+      for(const e of bugs){ if(hit(e.x,e.y,e.r,player.x,player.y,player.r)){ gameOver(); break; } }
+      for(const r of rocks){ if(hit(r.x,r.y,r.r,player.x,player.y,player.r)){ gameOver(); break; } }
+    }
+    scoreEl.textContent=score;
   }
 
-  const restart = () => requestAnimationFrame(()=> act());
-  if(!reduced){
-    restart();
-    window.addEventListener('resize', ()=>{
-      walker.style.transition='none';
-      place(-2000,0);
-      clearTimeout(window.__zrRsz);
-      window.__zrRsz=setTimeout(restart,200);
-    });
-  }else{
-    const t = title.getBoundingClientRect();
-    walker.style.transition='none';
-    place(t.left-20, t.top-140);
+  function gameOver(){
+    if(!player.alive) return;
+    player.alive=false; run=false; stateEl.textContent='Game over — press Restart';
+    const best=Math.max(+localStorage.getItem('zeroBest')||0, score);
+    localStorage.setItem('zeroBest',best); bestEl.textContent=best; beep(200,0.2,0.05);
   }
+
+  function draw(){
+    ctx.clearRect(0,0, W, H);
+    // stars
+    ctx.save(); ctx.globalAlpha=.8; ctx.fillStyle='#060a14';
+    for(let i=0;i<40;i++){ const x=(i*97 % W), y=(i*53 % H); ctx.fillRect((x+(Date.now()/40)%W)%W, y, 2, 2); }
+    ctx.restore();
+    // bullets
+    ctx.fillStyle='#9fe9ff'; bullets.forEach(b=>{ ctx.beginPath(); ctx.arc(b.x,b.y,b.r,0,Math.PI*2); ctx.fill(); });
+    // bugs
+    bugs.forEach(e=>{ ctx.save(); ctx.translate(e.x,e.y); ctx.strokeStyle='#2EE6FF'; ctx.lineWidth=2;
+      ctx.beginPath(); ctx.moveTo(-10,-8); ctx.quadraticCurveTo(-16,0,-10,8);
+      ctx.moveTo(10,-8); ctx.quadraticCurveTo(16,0,10,8); ctx.stroke();
+      ctx.fillStyle='#e6eefc'; ctx.beginPath(); ctx.arc(-3,-1,1.8,0,Math.PI*2); ctx.fill();
+      ctx.beginPath(); ctx.arc(3,-1,1.8,0,Math.PI*2); ctx.fill(); ctx.restore(); });
+    // rocks
+    ctx.strokeStyle='#445368'; ctx.lineWidth=2;
+    rocks.forEach(r=>{ ctx.beginPath(); ctx.arc(r.x,r.y,r.r,0,Math.PI*2); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(r.x-r.r*0.6,r.y); ctx.lineTo(r.x+r.r*0.6,r.y); ctx.stroke(); });
+    // ship
+    if(player.alive){
+      ctx.save(); ctx.translate(player.x,player.y);
+      ctx.fillStyle='#0c1424'; ctx.strokeStyle='#2EE6FF'; ctx.lineWidth=3;
+      ctx.beginPath();
+      ctx.moveTo(0,-16); ctx.lineTo(13,-6); ctx.lineTo(13,8); ctx.lineTo(0,16); ctx.lineTo(-13,8); ctx.lineTo(-13,-6); ctx.closePath(); ctx.stroke(); ctx.fill();
+      ctx.fillStyle='#e6eefc';
+      ctx.beginPath(); ctx.ellipse(-4,0,3.2,5,0,0,Math.PI*2); ctx.fill();
+      ctx.beginPath(); ctx.ellipse(4,0,3.2,5,0,0,Math.PI*2); ctx.fill();
+      const t=Date.now()/100; ctx.strokeStyle='#2EE6FF'; ctx.beginPath(); ctx.moveTo(0,18); ctx.lineTo(Math.sin(t)*2, 26 + Math.cos(t*1.7)*3); ctx.stroke();
+      ctx.restore();
+    }
+  }
+
+  function loop(ts){ if(!last) last=ts; const dt=Math.min(0.033,(ts-last)/1000); last=ts; update(dt); draw(); requestAnimationFrame(loop); }
+
+  bestEl.textContent=+localStorage.getItem('zeroBest')||0;
+  reset(); requestAnimationFrame(loop);
 })();
 </script>
 </body>
