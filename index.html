@@ -108,6 +108,14 @@
     .climbing .legL, .climbing .legR, .climbing .armL, .climbing .armR,
     .eyelids .lid { animation:none !important }
   }
+  /* Bug Blaster styles */
+  .glass{background:rgba(255,255,255,.06);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.08);border-radius:14px}
+  .bb-card{padding:18px;box-shadow:0 12px 28px rgba(0,0,0,.35)}
+  .bb-canvas{width:100%;aspect-ratio:16/10;border-radius:16px;background:#05080f;display:block}
+  .bb-hud{position:absolute;inset:0;pointer-events:none;display:flex;align-items:flex-start;justify-content:space-between;padding:10px;color:#cfe6ff;font-weight:800;text-shadow:0 2px 8px rgba(0,0,0,.6)}
+  .bb-pill{pointer-events:auto;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);border-radius:999px;padding:6px 10px}
+  .bb-controls{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
+  .bb-btn{display:inline-flex;align-items:center;justify-content:center;padding:10px 14px;border-radius:12px;border:1px solid rgba(255,255,255,.12);font-weight:800;background:transparent;color:#EAF3F8}
 </style>
 </head>
 <body>
